@@ -9,27 +9,27 @@ const lorem_ipsum_text: string = "Lorem ipsum dolor sit amet, consectetur adipis
 const faqs = [
     {
         question: "Who can participate in AISEHack?",
-        answer: lorem_ipsum_text,
+        answer: "Participants can be anyone, from college students to working professionals. It is open to all.",
     },
     {
         question: "What is the team size?",
-        answer: lorem_ipsum_text,
+        answer: "Teams can consist of 1 to 5 members. We encourage diverse teams with complimentary skills in AI, domain sciences, and engineering.",
     },
     {
         question: "Is there a registration fee?",
-        answer: lorem_ipsum_text,
+        answer: "There is no registration fee for the online qualification round.",
     },
     {
         question: "What are the prizes?",
-        answer: lorem_ipsum_text,
+        answer: "There is a total prize pool of up to ₹7,00,000 for the winning teams.",
     },
     {
         question: "Where is the Grand Finale held?",
-        answer: lorem_ipsum_text,
+        answer: "The Grand Finale will be held offline at IIIT Hyderabad campus.",
     },
     {
         question: "What datasets and resources will be provided?",
-        answer: lorem_ipsum_text,
+        answer: "Necessary datasets and resources will be provided by the problem statement providers when the Kaggle competition begins.",
     },
 ];
 

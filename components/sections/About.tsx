@@ -90,16 +90,23 @@ export default function About() {
                     </span>
                 </motion.h2>
 
-                <motion.p
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2, duration: 0.6 }}
-                    className="text-xl text-gray-200 max-w-3xl mx-auto"
+                    className="text-lg md:text-xl text-gray-200 max-w-4xl mx-auto text-left md:text-center"
                 >
-                    As we face unprecedented environmental shifts, we are calling on the brightest minds—researchers,
-                    engineers, and AI enthusiasts—to turn code into climate action.
-                </motion.p>
+                    <p className="mb-6">
+                        The Anusandhan National Research Foundation (ANRF) invites you to AISEHack, India’s premier hackathon at the intersection of
+                        Artificial Intelligence, Science, and Engineering. This isn't just a coding competition; it’s a mission to safeguard our future.
+                    </p>
+                    <p>
+                        As we face unprecedented environmental shifts, we are calling on the brightest minds—the researchers, the engineers, and the AI enthusiasts—to
+                        build high-impact solutions for Climate and Sustainability. Whether you are passionate about earth sciences, remote sensing, geospatial
+                        foundation models, predictive modeling or deep neural operators, AISEHack provides the platform, the data, and the community to make your mark.
+                    </p>
+                </motion.div>
             </div>
 
             <motion.div
