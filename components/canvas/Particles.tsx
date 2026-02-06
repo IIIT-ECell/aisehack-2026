@@ -60,6 +60,7 @@ function OrbitingParticles({ count = 60, radius = 2.2 }: ParticleSystemProps) {
                     count={count}
                     array={positions}
                     itemSize={3}
+                    args={[positions, 3]}
                 />
             </bufferGeometry>
             <pointsMaterial
@@ -117,6 +118,7 @@ function RisingParticles({ count = 25 }: { count?: number }) {
                     count={count}
                     array={positions}
                     itemSize={3}
+                    args={[positions, 3]}
                 />
             </bufferGeometry>
             <pointsMaterial

@@ -26,14 +26,14 @@ const partners = [
 
 export default function Footer() {
     return (
-        <footer className="relative py-20 px-4 border-t border-white/5">
+        <footer className="relative pt-10 pb-20 px-4 border-t border-white/5">
             {/* Background glow */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-t from-primary/10 to-transparent blur-[100px] pointer-events-none" />
 
             <div className="container mx-auto relative">
                 {/* Partner Logos */}
                 <div className="mb-16">
-                    <p className="text-center text-xs uppercase tracking-widest text-gray-500 mb-8">
+                    <p className="text-center text-xs uppercase tracking-widest text-gray-500 mb-16">
                         Organized by
                     </p>
                     <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">

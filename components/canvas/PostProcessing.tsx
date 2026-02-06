@@ -8,7 +8,7 @@ import {
 
 export default function PostProcessing() {
     return (
-        <EffectComposer multisampling={0} disableNormalPass>
+        <EffectComposer multisampling={0}>
             <Bloom
                 intensity={1.2}
                 luminanceThreshold={0.3}

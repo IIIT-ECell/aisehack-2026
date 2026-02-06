@@ -4,10 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { AnimatedText, RevealText } from "@/components/ui/AnimatedText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import Scene from "@/components/canvas/Scene";
-import Globe from "@/components/canvas/Globe";
-import FloatingClouds from "@/components/canvas/Cloud";
-import Particles from "@/components/canvas/Particles";
 import { ArrowDown } from "lucide-react";
 
 export default function Hero() {
@@ -40,14 +36,7 @@ export default function Hero() {
             ref={sectionRef}
             className="relative h-screen w-full overflow-hidden flex items-center justify-center"
         >
-            {/* 3D Background */}
-            <div className="absolute inset-0 z-0">
-                <Scene>
-                    <Globe mousePosition={mousePosition} />
-                    <FloatingClouds />
-                    <Particles />
-                </Scene>
-            </div>
+            {/* 3D Background - Moved to page.tsx */}
 
             {/* Gradient overlays for depth */}
             <div className="absolute inset-0 z-[1] pointer-events-none">

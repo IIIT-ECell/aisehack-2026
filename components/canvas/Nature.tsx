@@ -18,7 +18,6 @@ function Tree({ position, scale = 1 }: { position: [number, number, number], sca
 
     return (
         <group position={position} scale={[scale, scale, scale]} ref={ref}>
-            {/* @ts-expect-error - React 19 type mismatch with R3F */}
             <>
                 {/* Trunk */}
                 <mesh position={[0, 0.5, 0]}>

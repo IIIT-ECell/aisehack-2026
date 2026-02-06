@@ -82,7 +82,7 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
 
 export default function FAQ() {
     return (
-        <section id="faq" className="relative py-32 px-4 container mx-auto z-10">
+        <section id="faq" className="relative pt-32 pb-16 px-4 container mx-auto z-10">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-secondary/5 to-transparent rounded-full blur-3xl" />
