@@ -27,7 +27,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-primary selection:text-black noise-overlay relative">
+    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-black text-white selection:bg-primary selection:text-black noise-overlay relative">
       {/* 3D Background - Fixed */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Scene>

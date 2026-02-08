@@ -87,10 +87,13 @@ export default function Hero() {
                         <p className="text-xl md:text-3xl text-white font-semibold max-w-3xl mx-auto mb-6 leading-relaxed drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] antialiased">
                             Are you ready to turn code into climate action?
                         </p>
-                        <p className="text-lg md:text-xl text-gray-200 font-medium max-w-2xl mx-auto mb-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <p className="text-lg md:text-xl text-gray-200 font-medium max-w-2xl mx-auto mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                             India’s premier hackathon at the intersection of <span className="text-emerald-400 font-bold drop-shadow-lg">Artificial Intelligence</span>,{" "}
                             <span className="text-blue-400 font-bold drop-shadow-lg">Science</span> &{" "}
                             <span className="text-purple-400 font-bold drop-shadow-lg">Engineering</span>.
+                        </p>
+                        <p className="text-base md:text-lg text-gray-300 font-medium max-w-2xl mx-auto mb-12 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                            Problem statements designed by <span className="text-primary font-bold">IBM</span> and <span className="text-secondary font-bold">IIT Delhi</span>
                         </p>
                     </motion.div>
 

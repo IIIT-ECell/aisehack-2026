@@ -21,9 +21,9 @@ export default function Globe({ mousePosition }: GlobeProps) {
     const targetRotation = useRef({ x: 0, y: 0 });
 
     const [earthMap, earthBump, cloudMap] = useLoader(TextureLoader, [
-        '/texture/earthmap.jpeg',
-        '/texture/earthbump.jpeg',
-        '/texture/earthCloud.png'
+        '/texture/earthmap.webp',
+        '/texture/earthbump.webp',
+        '/texture/earthCloud.webp'
     ]);
 
     useFrame((_, delta) => {

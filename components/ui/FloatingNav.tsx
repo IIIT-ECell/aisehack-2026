@@ -15,17 +15,33 @@ const navItems = [
 export default function FloatingNav() {
     const [isVisible, setIsVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const lenis = useLenis();
 
     useEffect(() => {
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            if (mobile) {
+                setIsVisible(true);
+            }
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    useEffect(() => {
+        if (isMobile) return;
+
         const handleScroll = () => {
-            const scrollY = window.scrollY;
-            setIsVisible(scrollY > 400);
+            setIsVisible(window.scrollY > 400);
         };
 
+        handleScroll();
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [isMobile]);
 
     const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
@@ -46,18 +62,9 @@ export default function FloatingNav() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -100, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+                    className="fixed top-4 z-[100] right-4 md:right-auto md:left-1/2 md:-translate-x-1/2"
                 >
                     <div className="glass-strong rounded-full px-2 py-2 flex items-center gap-2">
-                        {/* Logo */}
-                        <a
-                            href="#"
-                            onClick={(e) => handleScrollToSection(e, "#")}
-                            className="px-4 py-2 text-primary font-bold text-sm"
-                        >
-                            AISEHack
-                        </a>
-
                         {/* Desktop nav */}
                         <div className="hidden md:flex items-center gap-1">
                             {navItems.map((item, i) => (
@@ -84,7 +91,7 @@ export default function FloatingNav() {
                         {/* Mobile menu button */}
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden p-2 text-white"
+                            className="md:hidden p-3 w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
                         >
                             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>

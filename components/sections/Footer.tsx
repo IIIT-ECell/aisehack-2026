@@ -18,45 +18,45 @@ const footerLinks = [
 ];
 
 const partners = [
-    { name: "ANRF", logo: "/logos/anrf.png", href: "https://anrf.gov.in" },
-    { name: "IIT Delhi", logo: "/logos/iitd.png", href: "https://home.iitd.ac.in" },
-    { name: "IIIT Hyderabad", logo: "/logos/iiith.png", href: "https://www.iiit.ac.in" },
-    { name: "E-Cell IIITH", logo: "/logos/ecell.png", href: "https://ecell.iiit.ac.in" },
+    { name: "ANRF", logo: "/logos/anrf.webp", href: "https://anrf.gov.in" },
+    { name: "IIT Delhi", logo: "/logos/iitd_white.webp", href: "https://home.iitd.ac.in" },
+    { name: "IIIT Hyderabad", logo: "/logos/iiith.webp", href: "https://www.iiit.ac.in" },
+    { name: "E-Cell IIITH", logo: "/logos/ecell.webp", href: "https://ecell.iiit.ac.in" },
 ];
 
 export default function Footer() {
     return (
-        <footer className="relative pt-10 pb-20 px-4 border-t border-white/5">
+        <footer className="relative pt-10 pb-32 px-4 border-t border-white/5">
             {/* Background glow */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-t from-primary/10 to-transparent blur-[100px] pointer-events-none" />
 
             <div className="container mx-auto relative">
                 {/* Partner Logos */}
                 <div className="mb-16">
-                    <p className="text-center text-xs uppercase tracking-widest text-gray-500 mb-16">
+                    <p className="text-center text-xs uppercase tracking-widest text-gray-500 mb-12">
                         Organized by
                     </p>
-                    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+                    <div className="flex flex-wrap justify-center items-center gap-6 md:gap-16">
                         {partners.map((partner, i) => (
                             <motion.a
                                 key={i}
                                 href={partner.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="relative group transition-all duration-300"
-                                whileHover={{ scale: 1.1 }}
+                                className="relative group transition-all duration-300 flex flex-col items-center"
+                                whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <div className="w-48 h-24 md:w-64 md:h-32 relative flex items-center justify-center">
+                                <div className="w-40 h-20 md:w-56 md:h-28 relative flex items-center justify-center p-4 md:p-6 transition-all">
                                     <Image
                                         src={partner.logo}
                                         alt={partner.name}
                                         fill
-                                        className="object-contain"
+                                        className="object-contain p-2"
                                         unoptimized
                                     />
                                 </div>
-                                <span className="block text-center text-xs text-gray-500 mt-2 group-hover:text-primary transition-colors">
+                                <span className="block text-center text-[10px] md:text-xs text-gray-500 mt-3 group-hover:text-primary transition-colors tracking-wider uppercase font-medium">
                                     {partner.name}
                                 </span>
                             </motion.a>
