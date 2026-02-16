@@ -98,11 +98,13 @@ export default function About() {
                     className="text-lg md:text-xl text-gray-200 max-w-4xl mx-auto text-left md:text-center"
                 >
                     <p className="mb-6">
-                        The Anusandhan National Research Foundation (ANRF) invites you to AISEHack, India’s premier hackathon at the intersection of
-                        Artificial Intelligence, Science, and Engineering. This isn't just a coding competition; it’s a mission to safeguard our future.
+                        As part of the contests track of the MAHA AI for Science and Engineering Mission, the Anusandhan National Research Foundation (ANRF) invites you to AISEHack, a national AI for Science and Engineering Hackathon. 
+                    </p>   
+                    <p className="mb-6">
+                        Co-organised by <b>IBM</b> and <b>IIT Delhi</b>, AISEHack isn't just a coding competition; it’s a mission to safeguard our future.
                     </p>
                     <p>
-                        As we face unprecedented environmental shifts, we are calling on the brightest minds—the researchers, the engineers, and the AI enthusiasts—to
+                        As we face unprecedented environmental shifts, we are calling on the brightest minds - the researchers, the engineers, and the AI enthusiasts - to
                         build high-impact solutions for Climate and Sustainability. Whether you are passionate about earth sciences, remote sensing, geospatial
                         foundation models, predictive modeling or deep neural operators, AISEHack provides the platform, the data, and the community to make your mark.
                     </p>

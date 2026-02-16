@@ -8,7 +8,7 @@ import { useLenis } from "lenis/react";
 const navItems = [
     { label: "About", href: "#about" },
     { label: "Timeline", href: "#timeline" },
-    { label: "Tracks", href: "#tracks" },
+    { label: "Themes", href: "#tracks" },
     { label: "FAQ", href: "#faq" },
 ];
 

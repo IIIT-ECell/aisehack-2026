@@ -9,18 +9,18 @@ const tracks = [
         icon: BarChart3,
         iconColor: "text-blue-400",
         glowColor: "rgba(96, 165, 250, 0.2)",
-        title: "Track 1: Flood Detection",
+        title: "Theme 1: Flood Detection",
         desc: "Leverage remote sensing and geospatial data to build robust AI models that can detect and predict flood-prone areas, saving lives and infrastructure.",
-        attribution: "Problem statement contributed by IBM",
+        attribution: "In coordination with IBM",
         tags: ["Geospatial AI", "Remote Sensing", "Computer Vision"],
     },
     {
         icon: Leaf,
         iconColor: "text-green-400",
         glowColor: "rgba(0, 255, 157, 0.2)",
-        title: "Track 2: Pollution Prediction",
+        title: "Theme 2: Pollution Prediction",
         desc: "Tackle urban air quality by developing physics/operator based deep learning models to forecast pollution levels, enabling smarter city planning and public health interventions.",
-        attribution: "Problem statement contributed by IIT Delhi",
+        attribution: "In coordination with IIT Delhi",
         tags: ["Deep Learning", "Physics-Informed AI", "Forecasting"],
     },
 ];
@@ -76,7 +76,7 @@ export default function Tracks() {
                     className="text-4xl md:text-6xl font-bold mb-6"
                 >
                     <span className="bg-gradient-to-r from-secondary via-white to-purple-400 bg-clip-text text-transparent">
-                        Challenge Tracks
+                        Challenge Themes
                     </span>
                 </motion.h2>
 
@@ -87,7 +87,7 @@ export default function Tracks() {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className="text-xl text-gray-200 max-w-2xl mx-auto"
                 >
-                    Two high-stakes tracks to build high-impact solutions.
+                    Two high-stakes themes to build high-impact solutions.
                 </motion.p>
             </div>
 
