@@ -105,10 +105,10 @@ export default function Hero() {
                         <MagneticButton
                             size="lg"
                             variant="primary"
-                            disabled
-                            className="opacity-80 cursor-not-allowed contrast-125"
+                            className="contrast-125"
+                            onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1", "_blank")}
                         >
-                            Coming Soon
+                            Register Now
                         </MagneticButton>
                         <MagneticButton
                             size="lg"

@@ -8,13 +8,12 @@ const socialLinks = [
     { icon: Twitter, href: "https://twitter.com/aborjobs", label: "Twitter" },
     { icon: Linkedin, href: "https://www.linkedin.com/company/anrfindia", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/precog-iiith", label: "GitHub" },
-    { icon: Mail, href: "mailto:aisehack@iiit.ac.in", label: "Email" },
 ];
 
 const footerLinks = [
+    { label: "Register", href: "https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1" },
     { label: "ANRF India", href: "https://anrf.gov.in" },
     { label: "IIIT Hyderabad", href: "https://www.iiit.ac.in" },
-    { label: "Contact", href: "mailto:aisehack@iiit.ac.in" },
 ];
 
 const partners = [

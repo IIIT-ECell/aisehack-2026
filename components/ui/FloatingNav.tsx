@@ -82,11 +82,16 @@ export default function FloatingNav() {
                         </div>
 
                         {/* CTA Button */}
-                        <div
-                            className="hidden md:block px-6 py-2.5 bg-primary/20 text-primary/50 text-sm font-medium rounded-full cursor-not-allowed border border-primary/20"
+                        <motion.a
+                            href="https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hidden md:block px-6 py-2.5 bg-primary/20 text-primary hover:bg-primary/30 text-sm font-medium rounded-full border border-primary/20 transition-all duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            Coming Soon
-                        </div>
+                            Register Now
+                        </motion.a>
 
                         {/* Mobile menu button */}
                         <button
@@ -116,11 +121,14 @@ export default function FloatingNav() {
                                         {item.label}
                                     </a>
                                 ))}
-                                <div
-                                    className="block mt-2 px-4 py-3 bg-primary/20 text-primary/50 text-center font-medium rounded-xl cursor-not-allowed border border-primary/20"
+                                <a
+                                    href="https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block mt-2 px-4 py-3 bg-primary/20 text-primary text-center font-medium rounded-xl border border-primary/20 active:scale-95 transition-all"
                                 >
-                                    Coming Soon
-                                </div>
+                                    Register Now
+                                </a>
                             </motion.div>
                         )}
                     </AnimatePresence>
