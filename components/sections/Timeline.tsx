@@ -5,9 +5,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const timelineEvents = [
     {
-        date: "Coming Soon",
-        title: "Registration Opens",
-        desc: "Get ready to apply! Applications will open shortly for India's premier Climate AI hackathon.",
+        date: "Active Now",
+        title: "Registration Open",
+        desc: "Secure your spot! Applications are now open for India's premier Climate AI hackathon. Join us in building for impact.",
         color: "from-blue-400 to-indigo-500",
     },
     {
