@@ -8,6 +8,7 @@ import Tracks from "@/components/sections/Tracks";
 import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
 import FloatingNav from "@/components/ui/FloatingNav";
+import FloatingSocials from "@/components/ui/FloatingSocials";
 import Scene from "@/components/canvas/Scene";
 import GlobalParticles from "@/components/canvas/GlobalParticles";
 import HeroSceneContent from "@/components/canvas/HeroSceneContent";
@@ -37,6 +38,7 @@ export default function Home() {
       </div>
 
       <FloatingNav />
+      <FloatingSocials />
 
       <div className="relative z-10">
         <Hero />

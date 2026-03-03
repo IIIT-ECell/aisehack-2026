@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Twitter, Linkedin, Mail, ExternalLink } from "lucide-react";
+import { Github, Linkedin, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 const socialLinks = [
-    { icon: Twitter, href: "https://twitter.com/aborjobs", label: "Twitter" },
     { icon: Linkedin, href: "https://www.linkedin.com/company/anrfindia", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/precog-iiith", label: "GitHub" },
 ];
@@ -25,11 +24,11 @@ const partners = [
 
 export default function Footer() {
     return (
-        <footer className="relative pt-10 pb-32 px-4 border-t border-white/5">
+        <footer className="relative pt-10 pb-12 px-4 border-t border-white/5">
             {/* Background glow */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-t from-primary/10 to-transparent blur-[100px] pointer-events-none" />
 
-            <div className="container mx-auto relative">
+            <div className="max-w-6xl mx-auto relative">
                 {/* Partner Logos */}
                 <div className="mb-16">
                     <p className="text-center text-xs uppercase tracking-widest text-gray-500 mb-12">
@@ -65,13 +64,14 @@ export default function Footer() {
 
                 <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10" />
 
+                {/* Middle row: logo | links | socials — all 3 columns balanced */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                     {/* Logo and tagline */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-center md:text-left"
+                        className="text-center md:text-left md:flex-1"
                     >
                         <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
                             AISEHack 2026
@@ -81,7 +81,7 @@ export default function Footer() {
                         </p>
                     </motion.div>
 
-                    {/* Links */}
+                    {/* Links — centered */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -105,13 +105,13 @@ export default function Footer() {
                         ))}
                     </motion.div>
 
-                    {/* Social links */}
+                    {/* Social links — right side, balances the logo on left */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="flex gap-4"
+                        className="flex gap-4 md:flex-1 md:justify-end"
                     >
                         {socialLinks.map((social, i) => (
                             <motion.a
@@ -133,11 +133,11 @@ export default function Footer() {
                 {/* Divider */}
                 <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10" />
 
-                {/* Bottom */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                {/* Bottom — centered copyright */}
+                <div className="text-center text-xs text-gray-500">
                     <p>
                         © 2026 AISEHack. Organized under{" "}
-                        <a href="https://anrf.gov.in" target="_blank" rel="noopener noreferrer" className="text-primary/70 hover:text-primary">
+                        <a href="https://anrf.gov.in" target="_blank" rel="noopener noreferrer" className="text-primary/70 hover:text-primary transition-colors">
                             MAHA AI-SE initiative
                         </a>{" "}
                         by ANRF.
