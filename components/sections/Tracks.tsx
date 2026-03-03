@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { BarChart3, Leaf } from "lucide-react";
+import { BarChart3, Leaf, ExternalLink } from "lucide-react";
 
 const tracks = [
     {
@@ -13,6 +13,8 @@ const tracks = [
         desc: "Leverage remote sensing and geospatial data to build robust AI models that can detect and predict flood-prone areas, saving lives and infrastructure.",
         attribution: "In coordination with IBM",
         tags: ["Geospatial AI", "Remote Sensing", "Computer Vision"],
+        kaggleLink: "https://www.kaggle.com/competitions/aisehack-theme-1",
+        rulesLink: "https://www.kaggle.com/competitions/aisehack-theme-1/rules",
     },
     {
         icon: Leaf,
@@ -22,6 +24,8 @@ const tracks = [
         desc: "Tackle urban air quality by developing physics/operator based deep learning models to forecast pollution levels, enabling smarter city planning and public health interventions.",
         attribution: "In coordination with IIT Delhi",
         tags: ["Deep Learning", "Physics-Informed AI", "Forecasting"],
+        kaggleLink: "https://www.kaggle.com/competitions/aisehack-theme-2",
+        rulesLink: "https://www.kaggle.com/competitions/aisehack-theme-2/rules",
     },
 ];
 
@@ -125,7 +129,7 @@ export default function Tracks() {
                             </p>
 
                             {/* Tags */}
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2 mb-5">
                                 {track.tags.map((tag, j) => (
                                     <span
                                         key={j}
@@ -134,6 +138,28 @@ export default function Tracks() {
                                         {tag}
                                     </span>
                                 ))}
+                            </div>
+
+                            {/* Kaggle & Rules Links */}
+                            <div className="flex flex-wrap gap-3 pt-2 border-t border-white/5">
+                                <a
+                                    href={track.kaggleLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium rounded-lg border border-primary/20 hover:border-primary/40 transition-all duration-300 group"
+                                >
+                                    Compete on Kaggle
+                                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                </a>
+                                <a
+                                    href={track.rulesLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white text-sm rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300 group"
+                                >
+                                    Rules
+                                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                </a>
                             </div>
                         </TiltCard>
                     </motion.div>

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin } from "lucide-react";
 
 const socialLinks = [
-    { icon: Linkedin, href: "https://www.linkedin.com/company/anrfindia", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/aisehack", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/precog-iiith", label: "GitHub" },
 ];
 

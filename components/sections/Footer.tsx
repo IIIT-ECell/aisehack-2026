@@ -5,7 +5,7 @@ import { Github, Linkedin, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 const socialLinks = [
-    { icon: Linkedin, href: "https://www.linkedin.com/company/anrfindia", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/aisehack", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/precog-iiith", label: "GitHub" },
 ];
 
@@ -133,8 +133,8 @@ export default function Footer() {
                 {/* Divider */}
                 <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10" />
 
-                {/* Bottom — centered copyright */}
-                <div className="text-center text-xs text-gray-500">
+                {/* Bottom — centered copyright + LinkedIn follow */}
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
                     <p>
                         © 2026 AISEHack. Organized under{" "}
                         <a href="https://anrf.gov.in" target="_blank" rel="noopener noreferrer" className="text-primary/70 hover:text-primary transition-colors">
@@ -142,6 +142,15 @@ export default function Footer() {
                         </a>{" "}
                         by ANRF.
                     </p>
+                    <a
+                        href="https://www.linkedin.com/company/aisehack"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-blue-400/70 hover:text-blue-400 transition-colors"
+                    >
+                        <Linkedin className="w-3.5 h-3.5" />
+                        Follow us on LinkedIn for updates
+                    </a>
                 </div>
             </div>
         </footer>

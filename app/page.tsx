@@ -5,6 +5,7 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Timeline from "@/components/sections/Timeline";
 import Tracks from "@/components/sections/Tracks";
+import Rules from "@/components/sections/Rules";
 import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
 import FloatingNav from "@/components/ui/FloatingNav";
@@ -46,6 +47,7 @@ export default function Home() {
           <About />
           <Timeline />
           <Tracks />
+          <Rules />
           <FAQ />
           <Footer />
         </div>
