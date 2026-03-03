@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { BarChart3, Leaf, ExternalLink } from "lucide-react";
+import { BarChart3, Leaf, ExternalLink, Info } from "lucide-react";
 
 const tracks = [
     {
@@ -164,6 +164,31 @@ export default function Tracks() {
                         </TiltCard>
                     </motion.div>
                 ))}
+            </motion.div>
+
+        {/* Registration note */}
+
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="w-fit mx-auto mt-10"
+            >
+                <div className="flex items-start gap-3 p-5 rounded-2xl bg-secondary/5 border border-secondary/20">
+                    <Info className="w-3 h-5 text-secondary shrink-0 mt-0.5" />
+                    <p className="text-sm text-gray-250 leading-relaxed">
+                        Kaggle competition links will be accessible once you have completed{" "}
+                        <a
+                            href="https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:underline underline-offset-2"
+                        >
+                            registration
+                        </a>
+                    </p>
+                </div>
             </motion.div>
         </section>
     );
