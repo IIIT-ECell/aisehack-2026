@@ -13,7 +13,7 @@ const tracks = [
         desc: "Leverage remote sensing and geospatial data to build robust AI models that can detect and predict flood-prone areas, saving lives and infrastructure.",
         attribution: "In coordination with IBM",
         tags: ["Geospatial AI", "Remote Sensing", "Computer Vision"],
-        kaggleLink: "https://www.kaggle.com/competitions/aisehack-theme-1",
+        kaggleLink: "https://www.kaggle.com/t/bac2150b648148518d4c83e595e44103",
         rulesLink: "https://www.kaggle.com/competitions/aisehack-theme-1/rules",
     },
     {
@@ -24,7 +24,7 @@ const tracks = [
         desc: "Tackle urban air quality by developing physics/operator based deep learning models to forecast pollution levels, enabling smarter city planning and public health interventions.",
         attribution: "In coordination with IIT Delhi",
         tags: ["Deep Learning", "Physics-Informed AI", "Forecasting"],
-        kaggleLink: "https://www.kaggle.com/competitions/aisehack-theme-2",
+        kaggleLink: "https://www.kaggle.com/t/ee9471decd8d45418daaa261acd982dc",
         rulesLink: "https://www.kaggle.com/competitions/aisehack-theme-2/rules",
     },
 ];
