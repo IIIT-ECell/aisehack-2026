@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Timeline from "@/components/sections/Timeline";
+import PrizePool from "@/components/sections/PrizePool";
 import Tracks from "@/components/sections/Tracks";
 import Rules from "@/components/sections/Rules";
 import FAQ from "@/components/sections/FAQ";
@@ -44,6 +45,7 @@ export default function Home() {
       <div className="relative z-10">
         <Hero />
         <div className="relative bg-black/20 backdrop-blur-sm border-t border-white/5 shadow-[0_-20px_50px_rgba(0,0,0,1)]">
+          <PrizePool />
           <About />
           <Timeline />
           <Tracks />
