@@ -15,11 +15,13 @@ const footerLinks = [
     { label: "IIIT Hyderabad", href: "https://www.iiit.ac.in" },
 ];
 
+const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const partners = [
-    { name: "ANRF", logo: "/logos/anrf.webp", href: "https://anrf.gov.in" },
-    { name: "IIT Delhi", logo: "/logos/iitd_white.webp", href: "https://home.iitd.ac.in" },
-    { name: "IIIT Hyderabad", logo: "/logos/iiith.webp", href: "https://www.iiit.ac.in" },
-    { name: "E-Cell IIITH", logo: "/logos/ecell.webp", href: "https://ecell.iiit.ac.in" },
+    { name: "ANRF", logo: `${bp}/logos/anrf.webp`, href: "https://anrf.gov.in" },
+    { name: "IIT Delhi", logo: `${bp}/logos/iitd_white.webp`, href: "https://home.iitd.ac.in" },
+    { name: "IIIT Hyderabad", logo: `${bp}/logos/iiith.webp`, href: "https://www.iiit.ac.in" },
+    { name: "E-Cell IIITH", logo: `${bp}/logos/ecell.webp`, href: "https://ecell.iiit.ac.in" },
 ];
 
 export default function Footer() {

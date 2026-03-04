@@ -20,10 +20,11 @@ export default function Globe({ mousePosition }: GlobeProps) {
 
     const targetRotation = useRef({ x: 0, y: 0 });
 
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const [earthMap, earthBump, cloudMap] = useLoader(TextureLoader, [
-        '/texture/earthmap.webp',
-        '/texture/earthbump.webp',
-        '/texture/earthCloud.webp'
+        `${basePath}/texture/earthmap.webp`,
+        `${basePath}/texture/earthbump.webp`,
+        `${basePath}/texture/earthCloud.webp`
     ]);
 
     useFrame((_, delta) => {
