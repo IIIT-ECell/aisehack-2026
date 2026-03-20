@@ -61,7 +61,7 @@ export default function Hero() {
                     {/* Date badge */}
                     <RevealText delay={0.2}>
                         <span className="inline-block px-6 py-2 rounded-full border border-primary/40 bg-black/60 backdrop-blur-md text-white font-semibold text-sm uppercase tracking-[0.3em] mb-8 shadow-[0_4px_20px_rgba(0,0,0,0.5)] drop-shadow-lg">
-                            March 1 - April 5, 2026
+                            Round 2: 4th-5th April 2026
                         </span>
                     </RevealText>
 

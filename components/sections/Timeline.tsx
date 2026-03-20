@@ -23,7 +23,7 @@ const timelineEvents = [
         color: "from-secondary to-blue-400",
     },
     {
-        date: "3 April - 5 April",
+        date: "4 April - 5 April",
         title: "Grand Finale",
         desc: "Phase 2: Offline hackathon at IIIT Hyderabad. 48-hour sprint to build and showcase your final solution.",
         color: "from-purple-500 to-pink-500",
