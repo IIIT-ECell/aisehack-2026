@@ -26,7 +26,7 @@ export default function Molecule({ mousePosition }: MoleculeProps) {
         for (let i = 0; i < count; i++) {
             const phi = Math.acos(-1 + (2 * i) / count);
             const theta = Math.sqrt(count * Math.PI) * phi;
-            const r = 1.15; // tighter — atoms stay inside the headline footprint
+            const r = 1.5;
             positions.push({
                 pos: [
                     r * Math.cos(theta) * Math.sin(phi),
@@ -34,7 +34,7 @@ export default function Molecule({ mousePosition }: MoleculeProps) {
                     r * Math.cos(phi),
                 ],
                 color: palette[i % palette.length],
-                size: 0.09 + (i % 3) * 0.02,
+                size: 0.14 + (i % 3) * 0.03,
             });
         }
         return positions;
@@ -43,9 +43,9 @@ export default function Molecule({ mousePosition }: MoleculeProps) {
     // Orbital electrons travelling around the molecule on tilted rings.
     const electrons = useMemo(() => {
         return [
-            { radius: 1.45, tilt: [Math.PI / 3, 0, 0] as [number, number, number], speed: 0.9, color: "#ec4899" },
-            { radius: 1.6, tilt: [0, Math.PI / 4, Math.PI / 6] as [number, number, number], speed: 0.6, color: "#00b8ff" },
-            { radius: 1.75, tilt: [Math.PI / 6, Math.PI / 3, 0] as [number, number, number], speed: 0.7, color: "#7c3aed" },
+            { radius: 1.85, tilt: [Math.PI / 3, 0, 0] as [number, number, number], speed: 0.9, color: "#ec4899" },
+            { radius: 2.05, tilt: [0, Math.PI / 4, Math.PI / 6] as [number, number, number], speed: 0.6, color: "#00b8ff" },
+            { radius: 2.25, tilt: [Math.PI / 6, Math.PI / 3, 0] as [number, number, number], speed: 0.7, color: "#7c3aed" },
         ];
     }, []);
 
@@ -88,11 +88,11 @@ export default function Molecule({ mousePosition }: MoleculeProps) {
             <group ref={rotationGroupRef}>
                 {/* Central nucleus — solid purple core. No additive shell (bloom does the glow). */}
                 <mesh>
-                    <icosahedronGeometry args={[0.32, 1]} />
+                    <icosahedronGeometry args={[0.42, 1]} />
                     <meshPhongMaterial
                         color="#3b0764"
                         emissive="#a855f7"
-                        emissiveIntensity={0.25}
+                        emissiveIntensity={0.3}
                         shininess={80}
                         specular={new THREE.Color(0x6d28d9)}
                     />
@@ -136,12 +136,12 @@ export default function Molecule({ mousePosition }: MoleculeProps) {
 
                 {/* Wireframe orbital cage suggests electron shells */}
                 <mesh>
-                    <icosahedronGeometry args={[1.3, 1]} />
+                    <icosahedronGeometry args={[1.7, 1]} />
                     <meshBasicMaterial
                         color="#a855f7"
                         wireframe
                         transparent
-                        opacity={0.12}
+                        opacity={0.2}
                         depthWrite={false}
                     />
                 </mesh>

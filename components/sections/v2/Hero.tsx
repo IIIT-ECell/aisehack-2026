@@ -69,7 +69,7 @@ export default function HeroV2() {
                     </RevealText>
 
                     <div className="filter">
-                        <h1 className="text-8xl md:text-[11rem] lg:text-[13rem] font-bold tracking-tighter mb-8 leading-[0.95]">
+                        <h1 className="text-7xl md:text-9xl font-bold tracking-tighter mb-6 leading-[0.95]">
                             <AnimatedText
                                 text="AISEHack"
                                 delay={0.5}
@@ -85,13 +85,13 @@ export default function HeroV2() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.2, duration: 0.8 }}
                     >
-                        <p className="text-2xl md:text-4xl text-white font-semibold max-w-4xl mx-auto mb-8 leading-tight drop-shadow-[0_4px_6px_rgba(0,0,0,0.95)] antialiased">
+                        <p className="text-xl md:text-3xl text-white font-semibold max-w-3xl mx-auto mb-6 leading-relaxed drop-shadow-[0_4px_6px_rgba(0,0,0,0.95)] antialiased">
                             Are you ready to turn code into an explorer of the macro and micro?
                         </p>
-                        <p className="text-lg md:text-2xl text-gray-200 font-medium max-w-3xl mx-auto mb-5 leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+                        <p className="text-lg md:text-xl text-gray-200 font-medium max-w-2xl mx-auto mb-4 leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
                             The Anusandhan National Research Foundation (ANRF) invites you to AISEHack <span className="text-primary font-bold">2.0</span>, India&apos;s premier research hackathon at the intersection of Artificial Intelligence, Science, and Engineering.
                         </p>
-                        <p className="text-base md:text-xl text-gray-300 font-medium max-w-2xl mx-auto mb-14 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        <p className="text-base md:text-lg text-gray-300 font-medium max-w-2xl mx-auto mb-12 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                             In coordination with <span className="text-primary font-bold">Galaxeye</span> and <span className="text-secondary font-bold">IIT Madras</span>
                         </p>
                     </motion.div>

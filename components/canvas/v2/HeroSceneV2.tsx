@@ -31,8 +31,8 @@ export default function HeroSceneV2({ mousePosition }: HeroSceneV2Props) {
     });
 
     return (
-        // Compact molecule sits behind the headline — like the planet did in v1.
-        <group ref={groupRef} position={[0, 0, -2]} scale={1}>
+        // Molecule sits behind the headline — sized like the planet did in v1.
+        <group ref={groupRef} position={[0, 0, -1]} scale={1}>
             <Molecule mousePosition={mousePosition} />
         </group>
     );
