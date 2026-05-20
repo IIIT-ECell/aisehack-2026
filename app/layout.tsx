@@ -7,8 +7,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-  title: "AISEHack 2026 | National Climate AI Hackathon",
-  description: "Building AI for Climate, Sustainability and Impact.",
+  title: "AISEHack | ANRF's AI for Science & Engineering Hackathon — Molecules & Space",
+  description:
+    "AISEHack 2nd Edition — India's premier research hackathon at the intersection of AI, Science and Engineering. Molecular property prediction & Remote Sensing. Organised by ANRF, in coordination with Galaxeye and IIT Madras.",
 };
 
 export default function RootLayout({

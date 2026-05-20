@@ -95,13 +95,21 @@ export default function ShowcasePage() {
             />
 
             <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors mb-12 group"
-                >
-                    <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                    Back to home
-                </Link>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mb-12">
+                    <Link
+                        href="/past-editions/edition-1"
+                        className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors group"
+                    >
+                        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                        Back to Edition 1
+                    </Link>
+                    <Link
+                        href="/"
+                        className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-primary/80 hover:text-primary transition-colors"
+                    >
+                        ← Current edition
+                    </Link>
+                </div>
 
                 <motion.div
                     style={{ y: titleY, opacity: titleOpacity }}
@@ -111,7 +119,7 @@ export default function ShowcasePage() {
                     className="mb-16 md:mb-24"
                 >
                     <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-primary/80 font-medium mb-4">
-                        AISEHack 2026 · Phase 2
+                        AISEHack · Edition 1 · Climate & Sustainability
                     </p>
                     <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-primary/90 to-secondary bg-clip-text text-transparent leading-[1.05] mb-6">
                         Submissions Showcase

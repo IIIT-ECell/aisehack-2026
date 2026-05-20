@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown, Trophy, Archive } from "lucide-react";
 import { useLenis } from "lenis/react";
+import { REGISTRATION_URL } from "@/components/sections/v2/config";
 
 const navItems = [
     { label: "About", href: "#about" },
@@ -13,19 +15,27 @@ const navItems = [
     { label: "FAQ", href: "#faq" },
 ];
 
+const pastEditions = [
+    {
+        label: "Edition 1 · Climate & Sustainability",
+        href: "/past-editions/edition-1",
+        showcaseHref: "/past-editions/edition-1/showcase",
+    },
+];
+
 export default function FloatingNav() {
     const [isVisible, setIsVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [pastOpen, setPastOpen] = useState(false);
+    const pastRef = useRef<HTMLDivElement>(null);
     const lenis = useLenis();
 
     useEffect(() => {
         const checkMobile = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            if (mobile) {
-                setIsVisible(true);
-            }
+            if (mobile) setIsVisible(true);
         };
         checkMobile();
         window.addEventListener("resize", checkMobile);
@@ -44,9 +54,21 @@ export default function FloatingNav() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [isMobile]);
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        if (!pastOpen) return;
+        const onClick = (e: MouseEvent) => {
+            if (pastRef.current && !pastRef.current.contains(e.target as Node)) {
+                setPastOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", onClick);
+        return () => document.removeEventListener("mousedown", onClick);
+    }, [pastOpen]);
+
     const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        e.preventDefault();
         if (href.startsWith("#")) {
+            e.preventDefault();
             const element = document.querySelector(href);
             if (element) {
                 lenis?.scrollTo(element as HTMLElement);
@@ -54,6 +76,9 @@ export default function FloatingNav() {
         }
         setIsOpen(false);
     };
+
+    const registerHref = REGISTRATION_URL && REGISTRATION_URL !== "#" ? REGISTRATION_URL : "#";
+    const registerEnabled = registerHref !== "#";
 
     return (
         <AnimatePresence>
@@ -80,19 +105,85 @@ export default function FloatingNav() {
                                     {item.label}
                                 </motion.a>
                             ))}
+
+                            {/* Past Editions dropdown */}
+                            <div ref={pastRef} className="relative">
+                                <motion.button
+                                    onClick={() => setPastOpen((v) => !v)}
+                                    className="px-4 py-2 text-sm text-gray-400 hover:text-white rounded-full hover:bg-white/5 transition-colors duration-300 flex items-center gap-1"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    Past Editions
+                                    <ChevronDown
+                                        className={`w-3.5 h-3.5 transition-transform duration-200 ${pastOpen ? "rotate-180" : ""}`}
+                                    />
+                                </motion.button>
+
+                                <AnimatePresence>
+                                    {pastOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                                            transition={{ duration: 0.18 }}
+                                            className="absolute right-0 mt-3 min-w-[320px] glass-strong rounded-2xl p-2 z-[101]"
+                                        >
+                                            {pastEditions.map((edition) => (
+                                                <div key={edition.href} className="rounded-xl overflow-hidden">
+                                                    <Link
+                                                        href={edition.href}
+                                                        onClick={() => setPastOpen(false)}
+                                                        className="flex items-start gap-3 px-3 py-3 hover:bg-white/[0.06] transition-colors"
+                                                    >
+                                                        <Archive className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                                                        <div className="flex-1">
+                                                            <div className="text-sm font-medium text-white">
+                                                                {edition.label}
+                                                            </div>
+                                                            <div className="text-[11px] text-gray-500 mt-0.5">
+                                                                Hero, rules, schedule and FAQ — archived
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                    <Link
+                                                        href={edition.showcaseHref}
+                                                        onClick={() => setPastOpen(false)}
+                                                        className="flex items-center gap-3 px-3 py-2.5 ml-4 hover:bg-white/[0.06] transition-colors border-l border-white/10"
+                                                    >
+                                                        <Trophy className="w-3.5 h-3.5 text-yellow-400" />
+                                                        <span className="text-xs text-gray-300">
+                                                            Winners &amp; Showcase
+                                                        </span>
+                                                    </Link>
+                                                </div>
+                                            ))}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         </div>
 
                         {/* CTA Button */}
-                        <motion.a
-                            href="https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hidden md:block px-6 py-2.5 bg-primary/20 text-primary hover:bg-primary/30 text-sm font-medium rounded-full border border-primary/20 transition-all duration-300"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Register Now
-                        </motion.a>
+                        {registerEnabled ? (
+                            <motion.a
+                                href={registerHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hidden md:block px-6 py-2.5 bg-primary/20 text-primary hover:bg-primary/30 text-sm font-medium rounded-full border border-primary/20 transition-all duration-300"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Register Now
+                            </motion.a>
+                        ) : (
+                            <motion.span
+                                className="hidden md:block px-6 py-2.5 bg-white/5 text-gray-400 text-sm font-medium rounded-full border border-white/10 cursor-not-allowed"
+                                title="Registration link coming soon"
+                            >
+                                Registration · Soon
+                            </motion.span>
+                        )}
 
                         {/* Mobile menu button */}
                         <button
@@ -122,14 +213,46 @@ export default function FloatingNav() {
                                         {item.label}
                                     </a>
                                 ))}
-                                <a
-                                    href="https://docs.google.com/forms/d/e/1FAIpQLSdy8rOyH607CxQU1jtw-JwQbU7EArKf8cYVwMHDf9ubqqQt2g/viewform?pli=1"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block mt-2 px-4 py-3 bg-primary/20 text-primary text-center font-medium rounded-xl border border-primary/20 active:scale-95 transition-all"
-                                >
-                                    Register Now
-                                </a>
+
+                                {/* Past Editions group */}
+                                <div className="mt-2 pt-2 border-t border-white/10">
+                                    <div className="px-4 py-2 text-[10px] uppercase tracking-widest text-gray-500">
+                                        Past Editions
+                                    </div>
+                                    {pastEditions.map((edition) => (
+                                        <div key={edition.href}>
+                                            <Link
+                                                href={edition.href}
+                                                onClick={() => setIsOpen(false)}
+                                                className="block px-4 py-2.5 text-sm text-white hover:text-primary transition-colors"
+                                            >
+                                                {edition.label}
+                                            </Link>
+                                            <Link
+                                                href={edition.showcaseHref}
+                                                onClick={() => setIsOpen(false)}
+                                                className="block px-4 py-2 ml-3 text-xs text-gray-400 hover:text-primary transition-colors"
+                                            >
+                                                Winners &amp; Showcase →
+                                            </Link>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {registerEnabled ? (
+                                    <a
+                                        href={registerHref}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block mt-3 px-4 py-3 bg-primary/20 text-primary text-center font-medium rounded-xl border border-primary/20 active:scale-95 transition-all"
+                                    >
+                                        Register Now
+                                    </a>
+                                ) : (
+                                    <span className="block mt-3 px-4 py-3 bg-white/5 text-gray-400 text-center font-medium rounded-xl border border-white/10">
+                                        Registration · Soon
+                                    </span>
+                                )}
                             </motion.div>
                         )}
                     </AnimatePresence>

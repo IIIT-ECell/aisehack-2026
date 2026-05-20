@@ -1,20 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Timeline from "@/components/sections/Timeline";
+import Hero from "@/components/sections/v2/Hero";
+import About from "@/components/sections/v2/About";
+import Timeline from "@/components/sections/v2/Timeline";
+import Tracks from "@/components/sections/v2/Tracks";
+import Rules from "@/components/sections/v2/Rules";
+import FAQ from "@/components/sections/v2/FAQ";
+import Footer from "@/components/sections/v2/Footer";
 import PrizePool from "@/components/sections/PrizePool";
-import Tracks from "@/components/sections/Tracks";
-import Rules from "@/components/sections/Rules";
-import FAQ from "@/components/sections/FAQ";
-import Footer from "@/components/sections/Footer";
 import FloatingNav from "@/components/ui/FloatingNav";
 import FloatingSocials from "@/components/ui/FloatingSocials";
-import ShowcaseLink from "@/components/ui/ShowcaseLink";
 import Scene from "@/components/canvas/Scene";
-import GlobalParticles from "@/components/canvas/GlobalParticles";
-import HeroSceneContent from "@/components/canvas/HeroSceneContent";
+import SpaceField from "@/components/canvas/v2/SpaceField";
+import HeroSceneV2 from "@/components/canvas/v2/HeroSceneV2";
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -32,15 +31,16 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-black text-white selection:bg-primary selection:text-black noise-overlay relative">
-      {/* 3D Background - Fixed */}
+      {/* Deep-space nebula gradient backdrop — corners glow, centre stays calm */}
+      <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,_rgba(124,58,237,0.22),_transparent_50%),radial-gradient(ellipse_at_top_right,_rgba(236,72,153,0.14),_transparent_45%),radial-gradient(ellipse_at_bottom_right,_rgba(0,184,255,0.18),_transparent_50%),radial-gradient(ellipse_at_bottom_left,_rgba(0,255,157,0.14),_transparent_50%),#000]" />
+
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Scene>
-          <GlobalParticles />
-          <HeroSceneContent mousePosition={mousePosition} />
+          <SpaceField />
+          <HeroSceneV2 mousePosition={mousePosition} />
         </Scene>
       </div>
 
-      <ShowcaseLink />
       <FloatingNav />
       <FloatingSocials />
 

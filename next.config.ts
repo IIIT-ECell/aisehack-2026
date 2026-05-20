@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
     "localhost",
     "precog.iiit.ac.in",
   ],
+  async redirects() {
+    return [
+      {
+        source: "/showcase",
+        destination: "/past-editions/edition-1/showcase",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
