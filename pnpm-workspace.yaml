@@ -1,0 +1,5 @@
+# pnpm 10+ reads project settings from this file (the `pnpm` field in
+# package.json is no longer honoured). Single-package projects use it too.
+onlyBuiltDependencies:
+  - sharp
+  - unrs-resolver
