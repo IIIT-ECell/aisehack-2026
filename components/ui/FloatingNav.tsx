@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Trophy, Archive } from "lucide-react";
+import { Menu, X, ChevronDown, Archive } from "lucide-react";
 import { useLenis } from "lenis/react";
 import { REGISTRATION_URL } from "@/components/sections/v2/config";
 
@@ -19,7 +19,6 @@ const pastEditions = [
     {
         label: "Edition 1 · Climate & Sustainability",
         href: "/past-editions/edition-1",
-        showcaseHref: "/past-editions/edition-1/showcase",
     },
 ];
 
@@ -130,33 +129,17 @@ export default function FloatingNav() {
                                             className="absolute right-0 mt-3 min-w-[320px] glass-strong rounded-2xl p-2 z-[101]"
                                         >
                                             {pastEditions.map((edition) => (
-                                                <div key={edition.href} className="rounded-xl overflow-hidden">
-                                                    <Link
-                                                        href={edition.href}
-                                                        onClick={() => setPastOpen(false)}
-                                                        className="flex items-start gap-3 px-3 py-3 hover:bg-white/[0.06] transition-colors"
-                                                    >
-                                                        <Archive className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                                                        <div className="flex-1">
-                                                            <div className="text-sm font-medium text-white">
-                                                                {edition.label}
-                                                            </div>
-                                                            <div className="text-[11px] text-gray-500 mt-0.5">
-                                                                Hero, rules, schedule and FAQ — archived
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                    <Link
-                                                        href={edition.showcaseHref}
-                                                        onClick={() => setPastOpen(false)}
-                                                        className="flex items-center gap-3 px-3 py-2.5 ml-4 hover:bg-white/[0.06] transition-colors border-l border-white/10"
-                                                    >
-                                                        <Trophy className="w-3.5 h-3.5 text-yellow-400" />
-                                                        <span className="text-xs text-gray-300">
-                                                            Winners &amp; Showcase
-                                                        </span>
-                                                    </Link>
-                                                </div>
+                                                <Link
+                                                    key={edition.href}
+                                                    href={edition.href}
+                                                    onClick={() => setPastOpen(false)}
+                                                    className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/[0.06] transition-colors"
+                                                >
+                                                    <Archive className="w-4 h-4 text-primary shrink-0" />
+                                                    <span className="text-sm font-medium text-white">
+                                                        {edition.label}
+                                                    </span>
+                                                </Link>
                                             ))}
                                         </motion.div>
                                     )}
@@ -220,22 +203,14 @@ export default function FloatingNav() {
                                         Past Editions
                                     </div>
                                     {pastEditions.map((edition) => (
-                                        <div key={edition.href}>
-                                            <Link
-                                                href={edition.href}
-                                                onClick={() => setIsOpen(false)}
-                                                className="block px-4 py-2.5 text-sm text-white hover:text-primary transition-colors"
-                                            >
-                                                {edition.label}
-                                            </Link>
-                                            <Link
-                                                href={edition.showcaseHref}
-                                                onClick={() => setIsOpen(false)}
-                                                className="block px-4 py-2 ml-3 text-xs text-gray-400 hover:text-primary transition-colors"
-                                            >
-                                                Winners &amp; Showcase →
-                                            </Link>
-                                        </div>
+                                        <Link
+                                            key={edition.href}
+                                            href={edition.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className="block px-4 py-2.5 text-sm text-white hover:text-primary transition-colors"
+                                        >
+                                            {edition.label}
+                                        </Link>
                                     ))}
                                 </div>
 

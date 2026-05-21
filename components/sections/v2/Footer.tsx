@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { REGISTRATION_URL } from "./config";
 
 const socialLinks = [
@@ -91,20 +92,27 @@ export default function FooterV2() {
                         transition={{ delay: 0.1 }}
                         className="flex flex-wrap justify-center gap-6"
                     >
-                        {footerLinks.map((link, i) => (
-                            <a
-                                key={i}
-                                href={link.href}
-                                target={link.href.startsWith("http") ? "_blank" : undefined}
-                                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                                className="text-gray-400 hover:text-primary transition-colors duration-300 text-sm flex items-center gap-1 group"
-                            >
-                                {link.label}
-                                {link.href.startsWith("http") && (
+                        {footerLinks.map((link, i) => {
+                            const isExternal = link.href.startsWith("http");
+                            const className =
+                                "text-gray-400 hover:text-primary transition-colors duration-300 text-sm flex items-center gap-1 group";
+                            return isExternal ? (
+                                <a
+                                    key={i}
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={className}
+                                >
+                                    {link.label}
                                     <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                            </a>
-                        ))}
+                                </a>
+                            ) : (
+                                <Link key={i} href={link.href} className={className}>
+                                    {link.label}
+                                </Link>
+                            );
+                        })}
                     </motion.div>
 
                     <motion.div
