@@ -64,7 +64,7 @@ export default function HeroV2() {
                 >
                     <RevealText delay={0.2}>
                         <span className="inline-block px-6 py-2.5 rounded-full border border-primary/40 bg-black/60 backdrop-blur-md text-white font-semibold text-sm md:text-base uppercase tracking-[0.3em] mb-8 shadow-[0_4px_20px_rgba(0,0,0,0.5)] drop-shadow-lg">
-                            2nd Edition · Grand Finale: Sept 2–3, 2026 · Goa
+                            2nd Edition · Grand Finale: 1st Week of September · Goa
                         </span>
                     </RevealText>
 

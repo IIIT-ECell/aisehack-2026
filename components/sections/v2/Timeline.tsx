@@ -5,25 +5,25 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const timelineEvents = [
     {
-        date: "Until June 7",
+        date: "Until June 16",
         title: "Registration Open",
         desc: "Complete the registration form to express your interest. Only registered participants receive Kaggle competition invites — accurate email is essential.",
         color: "from-blue-400 to-indigo-500",
     },
     {
-        date: "Jun 7 – Jul 7",
+        date: "Jun 16 – Jul 16",
         title: "Phase 1: Online Qualifier",
         desc: "Battle on the private Kaggle competition. Submit your best models across the Remote Sensing and Molecular tracks.",
         color: "from-primary to-emerald-400",
     },
     {
-        date: "2nd Week of July",
+        date: "3rd Week of July",
         title: "Phase 1 Shortlist",
         desc: "Top performing teams from Phase 1 are announced via email and the official website, advancing to Phase 2.",
         color: "from-secondary to-blue-400",
     },
     {
-        date: "Jul 15 – Aug 7",
+        date: "Jul 20 – Aug 7",
         title: "Phase 2: Online Qualifier",
         desc: "A second online sprint on Kaggle. Refine, generalise and stress-test your models against tougher tasks.",
         color: "from-cyan-400 to-secondary",
@@ -35,9 +35,9 @@ const timelineEvents = [
         color: "from-secondary to-purple-400",
     },
     {
-        date: "Sep 2 – 3, 2026",
+        date: "1st Week of September",
         title: "Phase 3: Grand Finale",
-        desc: "3-day offline sprint in Goa. Finalists are sponsored to attend, working alongside researchers from Galaxeye and IIT Madras.",
+        desc: "3-day offline sprint in Goa. Finalists are sponsored to attend, working alongside researchers from Galaxeye and IIT Madras. Exact dates announced shortly.",
         color: "from-purple-500 to-pink-500",
     },
 ];
