@@ -35,9 +35,9 @@ const timelineEvents = [
         color: "from-secondary to-purple-400",
     },
     {
-        date: "1st Week of September",
+        date: "Sep 2 – 3, 2026",
         title: "Phase 3: Grand Finale",
-        desc: "3-day offline sprint in Goa. Finalists are sponsored to attend, working alongside researchers from Galaxeye and IIT Madras. Exact dates announced shortly.",
+        desc: "3-day offline sprint in Goa. Finalists are sponsored to attend, working alongside researchers from Galaxeye and IIT Madras.",
         color: "from-purple-500 to-pink-500",
     },
 ];

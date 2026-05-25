@@ -27,7 +27,7 @@ const faqs = [
     },
     {
         question: "Where is the Grand Finale held?",
-        answer: "The 3-day offline Grand Finale (Phase 3) will be held in Goa in the 1st week of September 2026. Exact dates will be announced shortly.",
+        answer: "The 3-day offline Grand Finale (Phase 3) will be held in Goa on 2nd–3rd September 2026.",
     },
     {
         question: "Is travel to Goa covered?",
