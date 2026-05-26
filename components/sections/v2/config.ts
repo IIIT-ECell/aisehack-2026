@@ -6,7 +6,7 @@ export const REGISTRATION_URL: string =
 
 // TODO: replace with Kaggle competition invite links when published.
 export const TRACK_1_KAGGLE_URL: string = "#"; // Remote sensing + Yield prediction (Galaxeye)
-export const TRACK_2_KAGGLE_URL: string = "#"; // Molecular property prediction (IIT Madras)
+export const TRACK_2_KAGGLE_URL: string = "#"; // Polymer property prediction (IIT Madras)
 
 // TODO: replace with the published Kaggle rules links once available.
 export const TRACK_1_RULES_URL: string = "#";

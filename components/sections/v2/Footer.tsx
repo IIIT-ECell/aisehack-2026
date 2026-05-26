@@ -82,7 +82,7 @@ export default function FooterV2() {
                         <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
                             AISEHack · 2nd Edition
                         </h3>
-                        <p className="text-gray-500 text-sm">AI for Science & Engineering · Molecules and Space</p>
+                        <p className="text-gray-500 text-sm">AI for Science & Engineering · Polymers and Space</p>
                     </motion.div>
 
                     <motion.div

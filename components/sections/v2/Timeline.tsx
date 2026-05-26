@@ -13,7 +13,7 @@ const timelineEvents = [
     {
         date: "Jun 16 – Jul 16",
         title: "Phase 1: Online Qualifier",
-        desc: "Battle on the private Kaggle competition. Submit your best models across the Remote Sensing and Molecular tracks.",
+        desc: "Battle on the private Kaggle competition. Submit your best models across the Remote Sensing and Polymer tracks.",
         color: "from-primary to-emerald-400",
     },
     {

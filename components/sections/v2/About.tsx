@@ -10,7 +10,7 @@ const features = [
         iconColor: "text-primary",
         glowColor: "rgba(0, 255, 157, 0.2)",
         title: "Real-World Impact",
-        desc: "Work on critical challenges contributed by global leaders like Galaxeye and IIT Madras. Build high-impact solutions for Molecules and Space.",
+        desc: "Work on critical challenges contributed by global leaders like Galaxeye and IIT Madras. Build high-impact solutions for Polymers and Space.",
     },
     {
         icon: Users,
@@ -78,7 +78,7 @@ export default function AboutV2() {
                     className="text-4xl md:text-6xl font-bold mb-6"
                 >
                     <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent">
-                        From Molecules to Galaxies
+                        From Polymers to Galaxies
                     </span>
                 </motion.h2>
 
@@ -98,7 +98,7 @@ export default function AboutV2() {
                     <p className="mb-6">
                         As we face unprecedented environmental shifts, we are calling on the brightest minds
                         — the researchers, the engineers, and the AI enthusiasts — to build high-impact
-                        solutions for <b>Molecular</b> and <b>Space &amp; Remote Sensing</b>.
+                        solutions for <b>Polymer</b> and <b>Space &amp; Remote Sensing</b>.
                     </p>
                     <p>
                         Whether you are passionate about earth sciences, remote sensing, geospatial
