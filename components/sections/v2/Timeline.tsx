@@ -23,7 +23,7 @@ const timelineEvents = [
         color: "from-secondary to-blue-400",
     },
     {
-        date: "Jul 20 – Aug 7",
+        date: "Jul 27 – Aug 7",
         title: "Phase 2: Online Qualifier",
         desc: "A second online sprint on Kaggle. Refine, generalise and stress-test your models against tougher tasks.",
         color: "from-cyan-400 to-secondary",

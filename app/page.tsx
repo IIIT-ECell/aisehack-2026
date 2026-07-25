@@ -11,6 +11,7 @@ import Footer from "@/components/sections/v2/Footer";
 import PrizePool from "@/components/sections/PrizePool";
 import FloatingNav from "@/components/ui/FloatingNav";
 import FloatingSocials from "@/components/ui/FloatingSocials";
+import AnnouncementBanner from "@/components/ui/AnnouncementBanner";
 import Scene from "@/components/canvas/Scene";
 import SpaceField from "@/components/canvas/v2/SpaceField";
 import HeroSceneV2 from "@/components/canvas/v2/HeroSceneV2";
@@ -43,6 +44,7 @@ export default function Home() {
 
       <FloatingNav />
       <FloatingSocials />
+      <AnnouncementBanner />
 
       <div className="relative z-10">
         <Hero />
