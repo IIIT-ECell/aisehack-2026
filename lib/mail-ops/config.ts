@@ -1,9 +1,21 @@
 // Central config for the mail-ops internal dashboard.
 // Everything here is isolated from the public site config on purpose.
 
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+
 function required(name: string): string {
   const value = process.env[name];
   if (!value) {
+    // `next build` imports every route module (including these API routes)
+    // to collect page data, even though they're purely dynamic/runtime-only
+    // — so without this guard, real OAuth secrets would have to exist at
+    // *image build* time, not just when the container actually starts.
+    // Building without secrets and injecting them only at container
+    // runtime (via docker-compose's env_file) is the safer default; the
+    // real check still applies to every actual request at runtime.
+    if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
+      return "";
+    }
     throw new Error(
       `[mail-ops] Missing required environment variable: ${name}. See lib/mail-ops/README.md for setup.`
     );
