@@ -142,6 +142,16 @@ export async function getThread(accessToken: string, threadId: string): Promise<
   };
 }
 
+// RFC 2047 encoded-word: message headers must be 7-bit ASCII, so any
+// non-ASCII subject (em dashes, curly quotes, etc.) has to be wrapped like
+// this or clients fall back to decoding the raw UTF-8 bytes as Latin-1,
+// producing mojibake (e.g. "—" showing up as "Ã¢Â€Â”").
+function encodeHeaderValue(value: string): string {
+  // eslint-disable-next-line no-control-regex
+  if (/^[\x00-\x7F]*$/.test(value)) return value;
+  return `=?UTF-8?B?${Buffer.from(value, "utf-8").toString("base64")}?=`;
+}
+
 export async function sendReply(
   accessToken: string,
   params: { threadId: string; to: string; subject: string; body: string; inReplyTo: string; references: string }
@@ -151,7 +161,7 @@ export async function sendReply(
   const subject = params.subject.startsWith("Re:") ? params.subject : `Re: ${params.subject}`;
   const headerLines = [
     `To: ${params.to}`,
-    `Subject: ${subject}`,
+    `Subject: ${encodeHeaderValue(subject)}`,
     params.inReplyTo ? `In-Reply-To: ${params.inReplyTo}` : "",
     `References: ${[params.references, params.inReplyTo].filter(Boolean).join(" ")}`,
     "Content-Type: text/plain; charset=UTF-8",
@@ -168,5 +178,40 @@ export async function sendReply(
   await gmail.users.messages.send({
     userId: "me",
     requestBody: { raw, threadId: params.threadId },
+  });
+}
+
+// RFC 5322 header folding: continuation lines start with a space. Needed
+// because a 100-address Bcc line can otherwise be a single very long line.
+function foldAddressHeader(name: string, addresses: string[]): string {
+  return `${name}: ${addresses.join(",\r\n ")}`;
+}
+
+export async function sendBulkBcc(
+  accessToken: string,
+  params: { to: string; cc: string[]; bcc: string[]; subject: string; body: string }
+): Promise<void> {
+  const gmail = gmailClient(accessToken);
+
+  const headerLines = [
+    foldAddressHeader("To", [params.to]),
+    params.cc.length ? foldAddressHeader("Cc", params.cc) : "",
+    foldAddressHeader("Bcc", params.bcc),
+    `Subject: ${encodeHeaderValue(params.subject)}`,
+    "Content-Type: text/plain; charset=UTF-8",
+    "",
+    params.body,
+  ].filter((line) => line !== "");
+
+  const raw = Buffer.from(headerLines.join("\r\n"))
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+
+  // No threadId — this is a fresh compose, not a threaded reply.
+  await gmail.users.messages.send({
+    userId: "me",
+    requestBody: { raw },
   });
 }

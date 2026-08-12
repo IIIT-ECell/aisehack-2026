@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminSession } from "@/lib/mail-ops/guard";
 import { sendReply } from "@/lib/mail-ops/gmail";
+import { setAwaitingReplyByThread } from "@/lib/mail-ops/cache";
 
 export async function POST(req: NextRequest) {
   const { session, response } = await requireAdminSession();
@@ -22,6 +23,7 @@ export async function POST(req: NextRequest) {
       inReplyTo: inReplyTo ?? "",
       references: references ?? "",
     });
+    await setAwaitingReplyByThread(threadId, false);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Failed to send reply" }, { status: 502 });

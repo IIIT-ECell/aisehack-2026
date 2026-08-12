@@ -8,5 +8,13 @@ export const metadata: Metadata = {
 };
 
 export default function MailOpsLayout({ children }: { children: React.ReactNode }) {
-  return <div className="mail-ops-root">{children}</div>;
+  // data-lenis-prevent: the public site's ReactLenis (app/layout.tsx) wraps
+  // the whole document and hijacks wheel/touch scrolling by default, which
+  // breaks nested overflow-y-auto panes in this dashboard. This attribute
+  // tells Lenis to leave scroll input inside this subtree to the browser.
+  return (
+    <div className="mail-ops-root" data-lenis-prevent>
+      {children}
+    </div>
+  );
 }

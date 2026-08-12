@@ -16,7 +16,7 @@ export const mailOpsConfig = {
   googleClientId: () => required("MAIL_OPS_GOOGLE_CLIENT_ID"),
   googleClientSecret: () => required("MAIL_OPS_GOOGLE_CLIENT_SECRET"),
   authSecret: () => required("MAIL_OPS_AUTH_SECRET"),
-  anthropicApiKey: process.env.MAIL_OPS_ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY || "",
+  geminiApiKey: process.env.MAIL_OPS_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "",
   gmailScopes: [
     "openid",
     "email",
@@ -29,6 +29,16 @@ export const mailOpsConfig = {
   signInPath: "/mail-ops-x9k2/signin",
   dashboardPath: "/mail-ops-x9k2",
 } as const;
+
+// Fixed CC list for every batch-send blast (organizer + stakeholders).
+// Static and not editable per-send from the UI.
+export const BATCH_SEND_CC = [
+  "pk.guru@iiit.ac.in",
+  "rahul.sundar95@gmail.com",
+  "amolmk@gmail.com",
+  "laks316@gmail.com",
+  "bhoomikasingh2026@gmail.com",
+] as const;
 
 export const CATEGORIES = [
   "registration",

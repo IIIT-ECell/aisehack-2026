@@ -36,6 +36,38 @@
   --radius: 0.5rem;
 }
 
+/* Scoped light theme for the mail-ops internal dashboard only (see
+   lib/mail-ops/theme.ts). Overrides on .mail-ops-root[data-theme="light"]
+   legitimately win over :root's dark values for anything rendered inside
+   that subtree — @theme inline below only aliases token names to var(--x)
+   lookups, it doesn't hardcode values. Never affects the public site, which
+   never renders inside .mail-ops-root. --primary/--secondary/--ring (brand
+   accent colors) are deliberately left unchanged across themes. */
+.mail-ops-root[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  --card: #f4f4f5;
+  --card-foreground: #0a0a0a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+
+  --muted: #f0f0f2;
+  --muted-foreground: #52525b;
+
+  --accent: #ececee;
+  --accent-foreground: #0a0a0a;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+}
+
+@custom-variant mail-light (&:where(.mail-ops-root[data-theme="light"], .mail-ops-root[data-theme="light"] *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

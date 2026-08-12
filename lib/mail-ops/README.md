@@ -60,7 +60,7 @@ with access to a Google Cloud project tied to that account:
    - `MAIL_OPS_AUTH_SECRET` — generate with `openssl rand -base64 32`
    - `MAIL_OPS_ADMIN_EMAIL=democratiseresearch@gmail.com`
    - `AUTH_URL` — your deployed origin
-   - `MAIL_OPS_ANTHROPIC_API_KEY` — optional, enables AI categorization
+   - `MAIL_OPS_GEMINI_API_KEY` — optional, enables AI categorization
 6. Visit `/mail-ops-x9k2` and sign in **as democratiseresearch@gmail.com**
    — the consent screen will ask for Gmail read + send permission on that
    mailbox specifically, which is what lets the dashboard query and reply
@@ -71,8 +71,26 @@ Until these credentials exist, the routes will throw a clear
 
 ## Notes on categorization
 
-AI categorization (`lib/mail-ops/categorize.ts`) is opt-in per message (the
-"Categorize" button in the list), not automatic on every page load, to
-avoid burning API calls just from opening the dashboard. Results are
-cached in `.mail-ops-cache/categories.json` (gitignored — it can contain
-excerpts of student email content, so it must never be committed).
+AI categorization (`lib/mail-ops/categorize.ts`, via Gemini) runs on-demand
+from the "Scan for new" button in the Queries & Grievances tab, not
+automatically on every page load, to avoid burning API calls just from
+opening the dashboard. Results — including the "awaiting reply" flag used
+to surface not-yet-answered queries — are cached in
+`.mail-ops-cache/categories.json` (gitignored — it can contain excerpts of
+student email content, so it must never be committed).
+
+## Teams data (registration form import)
+
+The Teams tab and the "sender's team" panel shown while triaging a query
+are backed by `.mail-ops-cache/teams.json` (gitignored — real names, phone
+numbers, emails), generated from the registration Google Form's response
+export by a one-time script:
+
+```
+pip3 install openpyxl   # once
+python3 scripts/import-teams.py "/path/to/Registration form ... (Responses).xlsx"
+```
+
+Re-run it whenever there's a fresh export to refresh the dashboard's copy.
+Until this file exists, the Teams tab shows an empty state rather than
+erroring.

@@ -1,4 +1,3 @@
-import Anthropic from "@anthropic-ai/sdk";
 import { CATEGORIES, mailOpsConfig, type MailCategory } from "./config";
 import { getCachedCategory, setCachedCategory, type CategoryResult } from "./cache";
 
@@ -21,24 +20,35 @@ function heuristicCategorize(subject: string, body: string): CategoryResult {
 }
 
 async function aiCategorize(subject: string, body: string): Promise<CategoryResult> {
-  const client = new Anthropic({ apiKey: mailOpsConfig.anthropicApiKey });
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${mailOpsConfig.geminiApiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text:
+                  "You triage student emails for a hackathon inbox. Reply with strict JSON only: " +
+                  `{"category": one of [${CATEGORIES.join(", ")}], "summary": "one sentence summary of the ask"}\n\n` +
+                  `Subject: ${subject}\n\nBody:\n${body.slice(0, 4000)}`,
+              },
+            ],
+          },
+        ],
+        generationConfig: { responseMimeType: "application/json" },
+      }),
+    }
+  );
 
-  const response = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 200,
-    system:
-      "You triage student emails for a hackathon inbox. Reply with strict JSON only: " +
-      `{"category": one of [${CATEGORIES.join(", ")}], "summary": "one sentence summary of the ask"}`,
-    messages: [
-      {
-        role: "user",
-        content: `Subject: ${subject}\n\nBody:\n${body.slice(0, 4000)}`,
-      },
-    ],
-  });
+  if (!res.ok) throw new Error(`Gemini request failed: ${res.status}`);
 
-  const textBlock = response.content.find((b) => b.type === "text");
-  const parsed = JSON.parse(textBlock && "text" in textBlock ? textBlock.text : "{}");
+  const data = await res.json();
+  const text: string = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}";
+  const parsed = JSON.parse(text);
 
   const category: MailCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "general-query";
 
@@ -53,16 +63,19 @@ export async function categorizeMessage(
   messageId: string,
   subject: string,
   body: string,
-  forceRefresh = false
+  forceRefresh = false,
+  extra?: Partial<Pick<CategoryResult, "threadId" | "from" | "fromName" | "subject" | "date" | "unread" | "awaitingReply">>
 ): Promise<CategoryResult> {
   if (!forceRefresh) {
     const cached = await getCachedCategory(messageId);
     if (cached) return cached;
   }
 
-  const result = mailOpsConfig.anthropicApiKey
+  const base = mailOpsConfig.geminiApiKey
     ? await aiCategorize(subject, body).catch(() => heuristicCategorize(subject, body))
     : heuristicCategorize(subject, body);
+
+  const result: CategoryResult = { ...base, ...extra };
 
   await setCachedCategory(messageId, result);
   return result;

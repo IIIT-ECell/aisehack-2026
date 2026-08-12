@@ -61,35 +61,35 @@ export function ThreadView({
   }
 
   if (loading) {
-    return <div className="p-6 text-sm text-zinc-500">Loading thread…</div>;
+    return <div className="p-6 text-sm text-muted-foreground">Loading thread…</div>;
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="border-b border-white/10 px-4 py-3">
-        <h2 className="truncate text-sm font-medium text-white">{subject}</h2>
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="shrink-0 border-b border-border px-4 py-3">
+        <h2 className="truncate text-sm font-medium text-foreground">{subject}</h2>
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-3">
         {messages.map((m) => (
-          <div key={m.id} className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
-            <div className="mb-1 flex items-center justify-between text-xs text-zinc-500">
+          <div key={m.id} className="rounded-lg border border-border bg-muted p-3">
+            <div className="mb-1 flex items-center justify-between text-xs text-muted-foreground">
               <span className="truncate">{m.from}</span>
               <span className="shrink-0">{m.date}</span>
             </div>
-            <p className="whitespace-pre-wrap text-sm text-zinc-300">{m.bodyText}</p>
+            <p className="whitespace-pre-wrap text-sm text-muted-foreground">{m.bodyText}</p>
           </div>
         ))}
       </div>
 
-      <div className="border-t border-white/10 p-3">
+      <div className="shrink-0 border-t border-border p-3">
         {error && <p className="mb-2 text-xs text-destructive">{error}</p>}
         <textarea
           value={reply}
           onChange={(e) => setReply(e.target.value)}
           placeholder={lastMessage ? `Reply to ${lastMessage.from}…` : "Reply…"}
           rows={4}
-          className="w-full resize-none rounded-lg border border-white/10 bg-black/40 p-3 text-sm text-white placeholder:text-zinc-600 focus:border-primary/50 focus:outline-none"
+          className="w-full resize-none rounded-lg border border-input bg-muted p-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus:outline-none"
         />
         <div className="mt-2 flex justify-end">
           <Button size="sm" onClick={handleSend} isLoading={sending} disabled={!reply.trim() || sending}>
