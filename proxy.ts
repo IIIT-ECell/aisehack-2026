@@ -11,7 +11,10 @@ export default auth((req) => {
   // empirically. Strip it before comparing against our app-relative
   // route strings, or every check below silently fails once the site is
   // deployed under a subpath.
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  // .trim(): docker-compose's env_file parsing keeps trailing whitespace,
+  // so a stray space after the value in .env.production would otherwise
+  // silently break every comparison and redirect below.
+  const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || "").trim();
   const fullPathname = req.nextUrl.pathname;
   const pathname =
     basePath && fullPathname.startsWith(basePath) ? fullPathname.slice(basePath.length) || "/" : fullPathname;
