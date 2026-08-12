@@ -1,5 +1,14 @@
-# pnpm v10 reads project settings from this file (the `pnpm` field in
-# package.json is no longer honoured). Belt-and-suspenders with .npmrc.
+# pnpm reads project settings from this file (the `pnpm` field in
+# package.json is no longer honoured).
+#
+# v11 replaced onlyBuiltDependencies with allowBuilds and made unreviewed
+# build scripts a hard install failure (strictDepBuilds) by default — the
+# Docker build uses `corepack prepare pnpm@latest`, which is v11+, so
+# allowBuilds is required there. onlyBuiltDependencies is kept too since
+# local dev may still be on pnpm v10.
 onlyBuiltDependencies:
   - sharp
   - unrs-resolver
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
