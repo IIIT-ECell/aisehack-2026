@@ -1,33 +1,32 @@
 // Central config for the mail-ops internal dashboard.
 // Everything here is isolated from the public site config on purpose.
+//
+// IMPORTANT: none of these values may throw at module-evaluation time.
+// auth.ts constructs NextAuth(...) at module top level, and that module is
+// imported by proxy.ts (Next's middleware), which Next.js loads as a
+// single runtime for the *entire app* regardless of its `matcher` scope —
+// so a throw here previously took down every route on the public site,
+// not just mail-ops ones, whenever a mail-ops env var was unset. Missing
+// config must instead surface only when someone actually exercises
+// mail-ops, via isMailOpsConfigured()/requireAdminSession().
 
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
+function optional(name: string): string {
+  return process.env[name] ?? "";
+}
 
-function required(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    // `next build` imports every route module (including these API routes)
-    // to collect page data, even though they're purely dynamic/runtime-only
-    // — so without this guard, real OAuth secrets would have to exist at
-    // *image build* time, not just when the container actually starts.
-    // Building without secrets and injecting them only at container
-    // runtime (via docker-compose's env_file) is the safer default; the
-    // real check still applies to every actual request at runtime.
-    if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
-      return "";
-    }
-    throw new Error(
-      `[mail-ops] Missing required environment variable: ${name}. See lib/mail-ops/README.md for setup.`
-    );
-  }
-  return value;
+export function isMailOpsConfigured(): boolean {
+  return Boolean(
+    process.env.MAIL_OPS_GOOGLE_CLIENT_ID &&
+      process.env.MAIL_OPS_GOOGLE_CLIENT_SECRET &&
+      process.env.MAIL_OPS_AUTH_SECRET
+  );
 }
 
 export const mailOpsConfig = {
   adminEmail: (process.env.MAIL_OPS_ADMIN_EMAIL ?? "democratiseresearch@gmail.com").toLowerCase(),
-  googleClientId: () => required("MAIL_OPS_GOOGLE_CLIENT_ID"),
-  googleClientSecret: () => required("MAIL_OPS_GOOGLE_CLIENT_SECRET"),
-  authSecret: () => required("MAIL_OPS_AUTH_SECRET"),
+  googleClientId: () => optional("MAIL_OPS_GOOGLE_CLIENT_ID"),
+  googleClientSecret: () => optional("MAIL_OPS_GOOGLE_CLIENT_SECRET"),
+  authSecret: () => optional("MAIL_OPS_AUTH_SECRET"),
   geminiApiKey: process.env.MAIL_OPS_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "",
   gmailScopes: [
     "openid",
