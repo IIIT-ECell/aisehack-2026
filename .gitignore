@@ -32,9 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# mail-ops internal dashboard cache (never commit categorized mail content)
+/.mail-ops-cache/
 
 # typescript
 *.tsbuildinfo

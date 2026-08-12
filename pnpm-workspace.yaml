@@ -1,6 +1,5 @@
 # pnpm v10 reads project settings from this file (the `pnpm` field in
 # package.json is no longer honoured). Belt-and-suspenders with .npmrc.
-dangerouslyAllowAllBuilds: true
 onlyBuiltDependencies:
   - sharp
   - unrs-resolver
