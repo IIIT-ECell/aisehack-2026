@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MailOpsSessionProvider } from "@/components/mail-ops/MailOpsSessionProvider";
 
 // Isolated internal-only section. Explicitly de-indexed and never linked
 // from the public site's nav, footer, or sitemap.
@@ -14,7 +15,7 @@ export default function MailOpsLayout({ children }: { children: React.ReactNode 
   // tells Lenis to leave scroll input inside this subtree to the browser.
   return (
     <div className="mail-ops-root" data-lenis-prevent>
-      {children}
+      <MailOpsSessionProvider>{children}</MailOpsSessionProvider>
     </div>
   );
 }
