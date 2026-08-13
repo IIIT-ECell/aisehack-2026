@@ -6,19 +6,15 @@ import { mailOpsConfig } from "@/lib/mail-ops/config";
 // public site's nav/sitemap; this middleware is the second layer, on top
 // of the Google-account allowlist enforced in auth.ts's signIn callback.
 export default auth((req) => {
-  // req.nextUrl.pathname includes the deployed basePath (e.g.
-  // "/aisehack/mail-ops-x9k2"), NOT the app-relative path — verified
-  // empirically. Strip it before comparing against our app-relative
-  // route strings, or every check below silently fails once the site is
-  // deployed under a subpath.
-  // .trim(): docker-compose's env_file parsing keeps trailing whitespace,
-  // so a stray space after the value in .env.production would otherwise
-  // silently break every comparison and redirect below.
-  const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || "").trim();
-  const fullPathname = req.nextUrl.pathname;
-  const pathname =
-    basePath && fullPathname.startsWith(basePath) ? fullPathname.slice(basePath.length) || "/" : fullPathname;
-
+  // NextURL's `pathname` is already basePath-relative in middleware (Next
+  // strips the configured basePath before middleware ever sees it, and
+  // re-applies it automatically when a NextURL clone is serialized for a
+  // redirect's Location header). So route comparisons AND the redirect
+  // target below must both stay in plain app-relative terms — manually
+  // prepending NEXT_PUBLIC_BASE_PATH here double-applies it, producing
+  // "/aisehack/aisehack/..." on the deployed server (confirmed via
+  // `curl http://localhost:3000/...` directly against the container).
+  const { pathname } = req.nextUrl;
   const isSignInPage = pathname === mailOpsConfig.signInPath;
   const isApiRoute = pathname.startsWith("/api/mail-ops");
 
@@ -28,13 +24,8 @@ export default auth((req) => {
     if (isApiRoute) {
       return NextResponse.json({ error: "not found" }, { status: 404 });
     }
-    // NextURL does NOT re-apply basePath when .pathname is reassigned and
-    // the result is serialized for NextResponse.redirect() — also verified
-    // empirically. Prepend it explicitly so the browser lands on a URL
-    // still under the app's deployed subpath, not one outside it that
-    // 404s at whatever fronts this app.
     const signInUrl = req.nextUrl.clone();
-    signInUrl.pathname = `${basePath}${mailOpsConfig.signInPath}`;
+    signInUrl.pathname = mailOpsConfig.signInPath;
     signInUrl.search = "";
     return NextResponse.redirect(signInUrl);
   }
