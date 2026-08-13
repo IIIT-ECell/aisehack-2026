@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { mailOpsApi } from "@/lib/mail-ops/api";
 
 interface TeamMember {
   name: string;
@@ -41,7 +42,7 @@ export function TeamsView() {
       const params = new URLSearchParams();
       if (q) params.set("q", q);
       if (t) params.set("track", t);
-      const res = await fetch(`/api/mail-ops/teams?${params.toString()}`);
+      const res = await fetch(mailOpsApi(`/api/mail-ops/teams?${params.toString()}`));
       const data = await res.json();
       setTeams(data.teams ?? []);
       setTotal(data.total ?? 0);

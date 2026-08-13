@@ -5,6 +5,7 @@ import { MailList, type MailRowData } from "./MailList";
 import { ThreadView, type ThreadMessage } from "./ThreadView";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { mailOpsApi } from "@/lib/mail-ops/api";
 
 interface SenderTeam {
   track: "sar" | "polymer" | "unknown";
@@ -48,7 +49,7 @@ export function QueriesGrievances() {
   const fetchFeed = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/mail-ops/queries");
+      const res = await fetch(mailOpsApi("/api/mail-ops/queries"));
       const data = await res.json();
       setItems(data.items ?? []);
     } finally {
@@ -64,7 +65,7 @@ export function QueriesGrievances() {
   async function handleScan() {
     setScanning(true);
     try {
-      const res = await fetch("/api/mail-ops/queries", { method: "POST", body: JSON.stringify({}) });
+      const res = await fetch(mailOpsApi("/api/mail-ops/queries"), { method: "POST", body: JSON.stringify({}) });
       const data = await res.json();
       setItems(data.items ?? []);
       setLastScan({ scanned: data.scanned ?? 0, pagesFetched: data.pagesFetched ?? 0 });
@@ -79,8 +80,8 @@ export function QueriesGrievances() {
     setSenderTeam(undefined);
     try {
       const [threadRes, teamRes] = await Promise.all([
-        fetch(`/api/mail-ops/threads/${item.threadId}`),
-        item.from ? fetch(`/api/mail-ops/teams?q=${encodeURIComponent(item.from)}`) : null,
+        fetch(mailOpsApi(`/api/mail-ops/threads/${item.threadId}`)),
+        item.from ? fetch(mailOpsApi(`/api/mail-ops/teams?q=${encodeURIComponent(item.from)}`)) : null,
       ]);
       const data = await threadRes.json();
       setThreadMessages(data.messages ?? []);

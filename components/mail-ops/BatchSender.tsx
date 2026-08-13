@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { ConfirmSendDialog } from "./ConfirmSendDialog";
 import { BATCH_SEND_CC } from "@/lib/mail-ops/config";
+import { mailOpsApi } from "@/lib/mail-ops/api";
 import type { BatchSendRecord } from "@/lib/mail-ops/batch-log";
 import type { InvalidRecipient } from "@/lib/mail-ops/email-validate";
 import type { Track } from "@/lib/mail-ops/batches";
@@ -54,7 +55,7 @@ export function BatchSender({ onSent }: { onSent?: () => void }) {
   const fetchBatches = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/mail-ops/batches");
+      const res = await fetch(mailOpsApi("/api/mail-ops/batches"));
       const data = await res.json();
       setBatches(data.batches ?? []);
     } finally {
@@ -91,7 +92,7 @@ export function BatchSender({ onSent }: { onSent?: () => void }) {
     if (!previewData || previewData.id !== selected.id) {
       setPreviewLoading(true);
       try {
-        const res = await fetch(`/api/mail-ops/batches/${selected.id}`);
+        const res = await fetch(mailOpsApi(`/api/mail-ops/batches/${selected.id}`));
         setPreviewData(await res.json());
       } finally {
         setPreviewLoading(false);
@@ -104,7 +105,7 @@ export function BatchSender({ onSent }: { onSent?: () => void }) {
     setSending(true);
     setSendError(null);
     try {
-      const res = await fetch("/api/mail-ops/batch-send", {
+      const res = await fetch(mailOpsApi("/api/mail-ops/batch-send"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ batchId: selected.id, subject, body, confirm: true }),

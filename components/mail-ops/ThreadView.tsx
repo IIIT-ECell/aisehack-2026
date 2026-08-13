@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { mailOpsApi } from "@/lib/mail-ops/api";
 
 export interface ThreadMessage {
   id: string;
@@ -38,7 +39,7 @@ export function ThreadView({
     setSending(true);
     setError(null);
     try {
-      const res = await fetch("/api/mail-ops/reply", {
+      const res = await fetch(mailOpsApi("/api/mail-ops/reply"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
