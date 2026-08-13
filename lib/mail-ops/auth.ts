@@ -52,6 +52,14 @@ async function refreshAccessToken(refreshToken: string) {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  // Required by Auth.js for any deployment behind a reverse proxy: without
+  // it, trustHost only turns on if AUTH_URL happens to be set correctly at
+  // runtime, and NODE_ENV=production (set in the Docker image) disables
+  // its own dev-mode fallback. If untrusted, Auth.js rejects the real
+  // incoming Host header and falls back to building URLs from the
+  // container's own internal bind address (e.g. "0.0.0.0:3000" leaking
+  // into the browser) instead of the real public domain.
+  trustHost: true,
   providers: [
     Google({
       clientId: mailOpsConfig.googleClientId(),
