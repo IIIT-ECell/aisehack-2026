@@ -50,6 +50,22 @@ export async function GET() {
   return NextResponse.json({ items: await filteredFeed() });
 }
 
+// Runs `fn` over `items` with at most `limit` in flight at once. Plain
+// sequential awaiting of 100 Gmail+categorize round-trips was taking
+// minutes per scan and getting killed by an upstream proxy timeout (502)
+// in production — this cuts wall-clock time roughly by `limit`x while
+// staying modest enough not to hammer the Gmail/Gemini APIs.
+async function mapWithConcurrency<T>(items: T[], limit: number, fn: (item: T) => Promise<void>): Promise<void> {
+  let next = 0;
+  async function worker() {
+    while (next < items.length) {
+      const item = items[next++];
+      await fn(item);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+}
+
 // POST: admin-initiated "scan for new" — categorizes any not-yet-cached
 // message in the given query, same pipeline as the Inbox "Categorize"
 // button, then returns the refreshed filtered feed.
@@ -57,8 +73,12 @@ export async function GET() {
 // Gmail's list API only returns 25 messages per page. This walks pages
 // until it has collected `max` not-yet-cached messages (or runs out of
 // pages/budget), so older un-replied queries beyond the first page actually
-// get scanned instead of silently never showing up in the feed.
-const MAX_PAGES = 20;
+// get scanned instead of silently never showing up in the feed. Both `max`
+// and MAX_PAGES are kept modest so a single scan reliably finishes within
+// a normal proxy timeout — click "Scan for new" again to work through a
+// larger backlog incrementally; already-cached messages are skipped.
+const MAX_PAGES = 6;
+const CONCURRENCY = 5;
 
 export async function POST(req: NextRequest) {
   const { session, response } = await requireAdminSession();
@@ -66,7 +86,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => ({}));
   const query = body?.query || mailOpsConfig.defaultQuery;
-  const max = Math.min(Number(body?.max) || 100, 300);
+  const max = Math.min(Number(body?.max) || 40, 60);
 
   try {
     const cache = await getAllCachedCategories();
@@ -84,7 +104,7 @@ export async function POST(req: NextRequest) {
     } while (pageToken && pages < MAX_PAGES && toScan.length < max);
 
     const capped = toScan.slice(0, max);
-    for (const item of capped) {
+    await mapWithConcurrency(capped, CONCURRENCY, async (item) => {
       const awaitingReply = await computeAwaitingReply(session.accessToken!, item.threadId);
       await categorizeMessage(item.id, item.subject, item.snippet, false, {
         threadId: item.threadId,
@@ -95,7 +115,7 @@ export async function POST(req: NextRequest) {
         unread: item.unread,
         awaitingReply,
       });
-    }
+    });
 
     return NextResponse.json({ items: await filteredFeed(), scanned: capped.length, pagesFetched: pages });
   } catch {
