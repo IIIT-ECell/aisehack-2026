@@ -11,6 +11,12 @@ services:
       - .env.production
     environment:
       - NODE_ENV=production
+    # Persist the categorization cache / batch-send audit log / imported
+    # team data across rebuilds -- without this, .mail-ops-cache lived
+    # only inside the container's own filesystem and was silently wiped
+    # by every `docker compose up --build` (every fix tonight included).
+    volumes:
+      - ./.mail-ops-cache:/app/.mail-ops-cache
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
