@@ -33,6 +33,13 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static    ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public          ./public
 
+# lib/mail-ops/{cache,batch-log}.ts write here at runtime (categorization
+# cache, batch-send audit log). --chown above only covers the files COPY'd
+# in; /app itself stays root-owned otherwise, so the nextjs user (below)
+# could never mkdir a new directory under it -- every write silently
+# failed with EACCES, which was masquerading as unrelated 502s.
+RUN mkdir -p /app/.mail-ops-cache && chown nextjs:nodejs /app/.mail-ops-cache
+
 USER nextjs
 
 EXPOSE 3000
