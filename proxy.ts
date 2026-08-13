@@ -6,15 +6,18 @@ import { mailOpsConfig } from "@/lib/mail-ops/config";
 // public site's nav/sitemap; this middleware is the second layer, on top
 // of the Google-account allowlist enforced in auth.ts's signIn callback.
 export default auth((req) => {
-  // NextURL's `pathname` is already basePath-relative in middleware (Next
-  // strips the configured basePath before middleware ever sees it, and
-  // re-applies it automatically when a NextURL clone is serialized for a
-  // redirect's Location header). So route comparisons AND the redirect
-  // target below must both stay in plain app-relative terms — manually
-  // prepending NEXT_PUBLIC_BASE_PATH here double-applies it, producing
-  // "/aisehack/aisehack/..." on the deployed server (confirmed via
-  // `curl http://localhost:3000/...` directly against the container).
-  const { pathname } = req.nextUrl;
+  // Whether req.nextUrl.pathname includes the configured basePath here has
+  // behaved inconsistently across testing against the deployed server
+  // (confirmed via direct curl against the container, not assumption) —
+  // so this strips it defensively rather than trusting either behavior,
+  // and the redirect below is built as a plain URL (origin + explicit
+  // basePath + path) rather than relying on NextURL's clone()/.pathname
+  // re-application semantics, which have also proven unreliable.
+  const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || "").trim();
+  const rawPathname = req.nextUrl.pathname;
+  const pathname =
+    basePath && rawPathname.startsWith(basePath) ? rawPathname.slice(basePath.length) || "/" : rawPathname;
+
   const isSignInPage = pathname === mailOpsConfig.signInPath;
   const isApiRoute = pathname.startsWith("/api/mail-ops");
 
@@ -24,10 +27,8 @@ export default auth((req) => {
     if (isApiRoute) {
       return NextResponse.json({ error: "not found" }, { status: 404 });
     }
-    const signInUrl = req.nextUrl.clone();
-    signInUrl.pathname = mailOpsConfig.signInPath;
-    signInUrl.search = "";
-    return NextResponse.redirect(signInUrl);
+    const target = new URL(`${basePath}${mailOpsConfig.signInPath}`, req.nextUrl.origin);
+    return NextResponse.redirect(target);
   }
 
   return NextResponse.next();
