@@ -10,20 +10,19 @@
 // config must instead surface only when someone actually exercises
 // mail-ops, via isMailOpsConfigured()/requireAdminSession().
 
+// .trim(): stray whitespace pasted into a deploy env file has already
+// silently broken auth/routing more than once tonight — trim defensively
+// rather than trust every future edit to be clean.
 function optional(name: string): string {
-  return process.env[name] ?? "";
+  return (process.env[name] ?? "").trim();
 }
 
 export function isMailOpsConfigured(): boolean {
-  return Boolean(
-    process.env.MAIL_OPS_GOOGLE_CLIENT_ID &&
-      process.env.MAIL_OPS_GOOGLE_CLIENT_SECRET &&
-      process.env.MAIL_OPS_AUTH_SECRET
-  );
+  return Boolean(optional("MAIL_OPS_GOOGLE_CLIENT_ID") && optional("MAIL_OPS_GOOGLE_CLIENT_SECRET") && optional("MAIL_OPS_AUTH_SECRET"));
 }
 
 export const mailOpsConfig = {
-  adminEmail: (process.env.MAIL_OPS_ADMIN_EMAIL ?? "democratiseresearch@gmail.com").toLowerCase(),
+  adminEmail: (process.env.MAIL_OPS_ADMIN_EMAIL ?? "democratiseresearch@gmail.com").trim().toLowerCase(),
   googleClientId: () => optional("MAIL_OPS_GOOGLE_CLIENT_ID"),
   googleClientSecret: () => optional("MAIL_OPS_GOOGLE_CLIENT_SECRET"),
   authSecret: () => optional("MAIL_OPS_AUTH_SECRET"),
