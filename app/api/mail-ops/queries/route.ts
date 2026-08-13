@@ -118,7 +118,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ items: await filteredFeed(), scanned: capped.length, pagesFetched: pages });
-  } catch {
+  } catch (err) {
+    // Was silently swallowing the real exception -- every "Scan for new"
+    // failure showed only a generic 502 with no way to see WHY. Log it.
+    console.error("[mail-ops] scan failed:", err);
     return NextResponse.json({ error: "Failed to scan mail" }, { status: 502 });
   }
 }
