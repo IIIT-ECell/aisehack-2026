@@ -1,20 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { signOut } from "next-auth/react";
 import { QueriesGrievances } from "./QueriesGrievances";
 import { BatchSender } from "./BatchSender";
 import { TeamsView } from "./TeamsView";
 import { ThemeToggle } from "./ThemeToggle";
+import { KaggleTab } from "@/components/kaggle-ops/KaggleTab";
 import { useMailOpsTheme } from "@/lib/mail-ops/theme";
+import { mailOpsApi } from "@/lib/mail-ops/api";
 import { cn } from "@/lib/utils";
+import type { KaggleAnalysis } from "@/lib/kaggle-ops/types";
 
-type TabId = "queries" | "batch" | "teams";
+type TabId = "queries" | "batch" | "teams" | "kaggle";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "queries", label: "Queries & Grievances" },
   { id: "batch", label: "Batch Sender" },
   { id: "teams", label: "Teams" },
+  { id: "kaggle", label: "Kaggle" },
 ];
 
 export function Dashboard({ adminEmail }: { adminEmail: string }) {
@@ -23,12 +27,37 @@ export function Dashboard({ adminEmail }: { adminEmail: string }) {
     queries: true,
     batch: false,
     teams: false,
+    kaggle: false,
   });
   const { theme, toggle } = useMailOpsTheme();
+
+  const [analysis, setAnalysis] = useState<KaggleAnalysis | null>(null);
+  const [loadingKaggle, setLoadingKaggle] = useState(false);
+  const [kaggleError, setKaggleError] = useState<string | null>(null);
+
+  const fetchAnalysis = useCallback(async (refresh = false) => {
+    setLoadingKaggle(true);
+    setKaggleError(null);
+    try {
+      const res = await fetch(mailOpsApi(`/api/kaggle-ops/analysis${refresh ? "?refresh=1" : ""}`));
+      if (!res.ok) {
+        setKaggleError("Could not reach the Kaggle API for any competition.");
+        return;
+      }
+      setAnalysis(await res.json());
+    } catch {
+      setKaggleError("Could not load the Kaggle analysis.");
+    } finally {
+      setLoadingKaggle(false);
+    }
+  }, []);
 
   function activate(t: TabId) {
     setTab(t);
     setVisited((v) => ({ ...v, [t]: true }));
+    // Four leaderboard fetches are expensive, so they wait for the first
+    // visit to this tab rather than firing on dashboard load.
+    if (t === "kaggle" && !analysis && !loadingKaggle) fetchAnalysis();
   }
 
   return (
@@ -73,6 +102,16 @@ export function Dashboard({ adminEmail }: { adminEmail: string }) {
         {visited.teams && (
           <div className={cn("h-full min-h-0", tab !== "teams" && "hidden")}>
             <TeamsView />
+          </div>
+        )}
+        {visited.kaggle && (
+          <div className={cn("flex h-full min-h-0 flex-col", tab !== "kaggle" && "hidden")}>
+            <KaggleTab
+              analysis={analysis}
+              loading={loadingKaggle}
+              error={kaggleError}
+              onRefresh={() => fetchAnalysis(true)}
+            />
           </div>
         )}
       </div>

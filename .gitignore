@@ -40,6 +40,9 @@ yarn-error.log*
 # mail-ops internal dashboard cache (never commit categorized mail content)
 /.mail-ops-cache/
 
+# kaggle-ops leaderboard cache (contains participant team names)
+/.kaggle-ops-cache/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
