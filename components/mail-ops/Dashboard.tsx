@@ -10,9 +10,49 @@ import { KaggleTab } from "@/components/kaggle-ops/KaggleTab";
 import { useMailOpsTheme } from "@/lib/mail-ops/theme";
 import { mailOpsApi } from "@/lib/mail-ops/api";
 import { cn } from "@/lib/utils";
+import type { FetchFailureReason } from "@/lib/kaggle-ops/client";
 import type { KaggleAnalysis } from "@/lib/kaggle-ops/types";
 
 type TabId = "queries" | "batch" | "teams" | "kaggle";
+
+const REASON_LABELS: Record<FetchFailureReason, string> = {
+  auth: "invalid credentials",
+  forbidden: "not joined / rules not accepted",
+  "not-found": "competition not found",
+  "rate-limited": "rate limited by Kaggle",
+  network: "network error",
+  "not-json": "unexpected response format",
+  "bad-shape": "unexpected response shape",
+};
+
+type KaggleFailureBoard = {
+  slug?: string;
+  label?: string;
+  reason?: FetchFailureReason;
+  message?: string;
+};
+
+/**
+ * The route's error body carries a per-competition reason (auth vs forbidden
+ * vs network, etc.) so a single invite-only board doesn't have to look the
+ * same as a completely wrong API key. Surface that instead of a generic line.
+ */
+async function describeKaggleFailure(res: Response): Promise<string> {
+  try {
+    const body: { error?: string; boards?: KaggleFailureBoard[] } = await res.json();
+    if (body.boards && body.boards.length > 0) {
+      const lines = body.boards.map((board) => {
+        const reason = board.reason ? REASON_LABELS[board.reason] : "unknown error";
+        return `${board.label ?? board.slug ?? "competition"}: ${reason}${board.message ? ` — ${board.message}` : ""}`;
+      });
+      return `Could not reach the Kaggle API for any competition:\n${lines.join("\n")}`;
+    }
+    if (body.error) return body.error;
+  } catch {
+    // fall through to the generic message below
+  }
+  return "Could not reach the Kaggle API for any competition.";
+}
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "queries", label: "Queries & Grievances" },
@@ -41,7 +81,7 @@ export function Dashboard({ adminEmail }: { adminEmail: string }) {
     try {
       const res = await fetch(mailOpsApi(`/api/kaggle-ops/analysis${refresh ? "?refresh=1" : ""}`));
       if (!res.ok) {
-        setKaggleError("Could not reach the Kaggle API for any competition.");
+        setKaggleError(await describeKaggleFailure(res));
         return;
       }
       setAnalysis(await res.json());

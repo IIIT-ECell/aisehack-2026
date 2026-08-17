@@ -28,7 +28,7 @@ export function KaggleTab({
   if (error && !analysis) {
     return (
       <div className="p-6">
-        <p className="text-sm text-destructive">{error}</p>
+        <p className="whitespace-pre-line text-sm text-destructive">{error}</p>
         <p className="mt-2 max-w-prose text-xs text-muted-foreground">
           Check that <code className="text-muted-foreground">KAGGLE_OPS_USERNAME</code> and{" "}
           <code className="text-muted-foreground">KAGGLE_OPS_KEY</code> are set, and that this Kaggle
