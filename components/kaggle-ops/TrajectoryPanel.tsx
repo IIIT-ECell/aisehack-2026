@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { TRACKS, trackLabels, type Track } from "@/lib/kaggle-ops/config";
+import type { Track } from "@/lib/kaggle-ops/config";
 import type { KaggleAnalysis, TrajectoryEntry } from "@/lib/kaggle-ops/types";
 import { DeltaChip, Empty, Panel, StatusPill } from "./Bits";
 
@@ -24,8 +24,7 @@ const FILTER_LABELS: Record<Filter, string> = {
  * competitions with no shared team identity, so this join is structurally
  * impossible in its UI.
  */
-export function TrajectoryPanel({ analysis }: { analysis: KaggleAnalysis }) {
-  const [track, setTrack] = useState<Track>("polymer");
+export function TrajectoryPanel({ analysis, track }: { analysis: KaggleAnalysis; track: Track }) {
   const [filter, setFilter] = useState<Filter>("all");
 
   const entries = analysis.trajectories[track] ?? [];
@@ -46,33 +45,19 @@ export function TrajectoryPanel({ analysis }: { analysis: KaggleAnalysis }) {
       title="Round 1 → Round 2 trajectory"
       subtitle="Teams matched across rounds by name. Movement is measured in percentile, not raw rank, because the two rounds have different field sizes."
     >
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        {TRACKS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTrack(t)}
-            className={cn(
-              "rounded-full border px-2.5 py-1 text-[11px]",
-              track === t
-                ? "border-primary/50 bg-primary/10 text-primary"
-                : "border-border text-muted-foreground hover:text-foreground"
-            )}
-          >
-            {trackLabels[t]}
-          </button>
-        ))}
-        {joinRate !== null && (
+      {joinRate !== null && (
+        <div className="mb-3 flex justify-end">
           <span
             className={cn(
-              "ml-auto text-[11px]",
+              "text-[11px]",
               joinRate < 0.6 ? "text-amber-400" : "text-muted-foreground"
             )}
             title="Share of teams that could be matched across rounds by name. A low rate usually means teams renamed between rounds."
           >
             name join {Math.round(joinRate * 100)}%
           </span>
-        )}
-      </div>
+        </div>
+      )}
 
       {entries.length === 0 ? (
         <Empty>

@@ -1,55 +1,44 @@
 "use client";
 
-import { TRACKS, trackLabels } from "@/lib/kaggle-ops/config";
-import type { KaggleAnalysis } from "@/lib/kaggle-ops/types";
+import { trackLabels, type Track } from "@/lib/kaggle-ops/config";
+import type { KaggleAnalysis, TimingAnalysis } from "@/lib/kaggle-ops/types";
 import { Empty, Panel } from "./Bits";
 
-export function FunnelPanel({ analysis }: { analysis: KaggleAnalysis }) {
-  const hasAny = TRACKS.some((t) => (analysis.funnels[t] ?? []).length > 0);
+export function FunnelPanel({ analysis, track }: { analysis: KaggleAnalysis; track: Track }) {
+  const bands = analysis.funnels[track] ?? [];
 
   return (
     <Panel
       title="Who came back for Round 2"
       subtitle="Share of each Round 1 rank band that appears on the Round 2 board. Round 2 is invite-only, so a team's absence may mean they were not invited rather than that they dropped out — read this as reappearance, not attrition."
     >
-      {!hasAny ? (
-        <Empty>Needs both rounds of a track to be available.</Empty>
+      {bands.length === 0 ? (
+        <Empty>Needs both rounds of this track to be available.</Empty>
       ) : (
-        <div className="space-y-4">
-          {TRACKS.map((track) => {
-            const bands = analysis.funnels[track] ?? [];
-            if (bands.length === 0) return null;
-            return (
-              <div key={track}>
-                <h4 className="mb-1.5 text-xs font-medium text-foreground">{trackLabels[track]}</h4>
-                <ul className="space-y-1">
-                  {bands.map((band) => (
-                    <li key={band.label} className="flex items-center gap-2">
-                      <span className="w-16 shrink-0 text-[11px] text-muted-foreground">{band.label}</span>
-                      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                        <div
-                          className="h-full rounded-full bg-secondary"
-                          style={{ width: `${band.rate * 100}%` }}
-                          title={`${band.reappeared} of ${band.r1Teams} returned`}
-                        />
-                      </div>
-                      <span className="w-16 shrink-0 text-right text-[11px] tabular-nums text-muted-foreground">
-                        {band.reappeared}/{band.r1Teams}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+        <ul className="space-y-1">
+          {bands.map((band) => (
+            <li key={band.label} className="flex items-center gap-2">
+              <span className="w-16 shrink-0 text-[11px] text-muted-foreground">{band.label}</span>
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full rounded-full bg-secondary"
+                  style={{ width: `${band.rate * 100}%` }}
+                  title={`${band.reappeared} of ${band.r1Teams} returned`}
+                />
               </div>
-            );
-          })}
-        </div>
+              <span className="w-16 shrink-0 text-right text-[11px] tabular-nums text-muted-foreground">
+                {band.reappeared}/{band.r1Teams}
+              </span>
+            </li>
+          ))}
+        </ul>
       )}
     </Panel>
   );
 }
 
-export function TimingPanel({ analysis }: { analysis: KaggleAnalysis }) {
-  const usable = analysis.timing.filter((t) => t.byDay.length > 0);
+export function TimingPanel({ timing }: { timing: TimingAnalysis[] }) {
+  const usable = timing.filter((t) => t.byDay.length > 0);
 
   return (
     <Panel

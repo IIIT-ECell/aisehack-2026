@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { TRACKS, trackLabels, type Track } from "@/lib/kaggle-ops/config";
 import type { KaggleAnalysis } from "@/lib/kaggle-ops/types";
 import { ContenderTable } from "./ContenderTable";
 import { SeparationPanel } from "./SeparationPanel";
@@ -20,6 +22,7 @@ export function KaggleTab({
   onRefresh: () => void;
 }) {
   const [showDiagnostics, setShowDiagnostics] = useState(false);
+  const [track, setTrack] = useState<Track>("polymer");
 
   if (loading && !analysis) {
     return <p className="p-6 text-sm text-muted-foreground">Fetching Kaggle leaderboards…</p>;
@@ -48,6 +51,12 @@ export function KaggleTab({
   if (!analysis) {
     return <p className="p-6 text-sm text-muted-foreground">No analysis yet.</p>;
   }
+
+  const boardTrackBySlug = new Map(analysis.boards.map((b) => [b.slug, b.track]));
+  const trackBoards = analysis.boards.filter((b) => b.track === track);
+  const trackContenders = analysis.contenders.filter((c) => c.track === track);
+  const trackSeparation = analysis.separation.filter((s) => boardTrackBySlug.get(s.slug) === track);
+  const trackTiming = analysis.timing.filter((t) => boardTrackBySlug.get(t.slug) === track);
 
   return (
     <div className="flex-1 space-y-4 overflow-y-auto p-4">
@@ -82,19 +91,39 @@ export function KaggleTab({
         </div>
       )}
 
+      <div className="flex gap-1.5 rounded-full border border-border bg-muted/30 p-1 w-fit">
+        {TRACKS.map((t) => (
+          <button
+            key={t}
+            onClick={() => setTrack(t)}
+            className={cn(
+              "rounded-full px-4 py-1.5 text-xs font-medium transition-colors",
+              track === t ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {trackLabels[t]}
+          </button>
+        ))}
+      </div>
+
       {showDiagnostics && (
-        <DiagnosticsPanel boards={analysis.boards} generatedAt={analysis.generatedAt} />
+        <DiagnosticsPanel boards={trackBoards} generatedAt={analysis.generatedAt} />
       )}
 
-      <ContenderTable contenders={analysis.contenders} />
-      <SeparationPanel separation={analysis.separation} boards={analysis.boards} />
-      <TrajectoryPanel analysis={analysis} />
+      <ContenderTable contenders={trackContenders} />
+      <SeparationPanel separation={trackSeparation} boards={trackBoards} />
+      <TrajectoryPanel analysis={analysis} track={track} />
+      <FunnelPanel analysis={analysis} track={track} />
+      <TimingPanel timing={trackTiming} />
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <FunnelPanel analysis={analysis} />
-        <TimingPanel analysis={analysis} />
-        <TrackShapePanel analysis={analysis} />
-        <CrossTrackPanel analysis={analysis} />
+      <div>
+        <h3 className="mb-2 text-xs font-medium text-muted-foreground">
+          Cross-track comparison (both tracks)
+        </h3>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <TrackShapePanel analysis={analysis} />
+          <CrossTrackPanel analysis={analysis} />
+        </div>
       </div>
     </div>
   );
