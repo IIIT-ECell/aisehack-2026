@@ -3,8 +3,12 @@
 // import, required secrets are lazy thunks so importing this module never
 // breaks the build when credentials are absent.
 
+// .trim(): a value pasted from kaggle.json (or a deploy env file) carrying a
+// stray trailing space or newline sends Kaggle a byte-for-byte wrong
+// username/key, which the API rejects as a plain 401 with no hint that
+// whitespace, not the credential itself, was the problem.
 function required(name: string): string {
-  const value = process.env[name];
+  const value = (process.env[name] ?? "").trim();
   if (!value) {
     throw new Error(
       `[kaggle-ops] Missing required environment variable: ${name}. See lib/kaggle-ops/README.md for setup.`
@@ -102,5 +106,5 @@ export const kaggleOpsConfig = {
 
 /** Whether credentials are present, without throwing — used to render setup hints. */
 export function hasKaggleCredentials(): boolean {
-  return Boolean(process.env.KAGGLE_OPS_USERNAME && process.env.KAGGLE_OPS_KEY);
+  return Boolean((process.env.KAGGLE_OPS_USERNAME ?? "").trim() && (process.env.KAGGLE_OPS_KEY ?? "").trim());
 }
