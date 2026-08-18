@@ -69,6 +69,37 @@ export async function findTeamByEmail(email: string): Promise<Team | undefined> 
   return data.teams.find((t) => t.id === teamId);
 }
 
+/**
+ * Registration data has each member's real name, not the Kaggle team name
+ * they compete under — so this can only match teams whose Kaggle name
+ * happens to equal a registered person's name (e.g. a solo entrant). Never
+ * fuzzy-matches: a wrong guess here means emailing the wrong student.
+ */
+export async function findTeamsByMemberName(name: string): Promise<{ team: Team; member: TeamMember }[]> {
+  const data = await readTeamsFile();
+  if (!data) return [];
+  const target = name.trim().toLowerCase();
+  if (!target) return [];
+
+  const out: { team: Team; member: TeamMember }[] = [];
+  for (const team of data.teams) {
+    for (const member of team.members) {
+      if (member.name?.trim().toLowerCase() === target) out.push({ team, member });
+    }
+  }
+  return out;
+}
+
+/** Round 1's submission sheet records the Kaggle team name directly, so an exact match there is a second, independent way to identify a team. */
+export async function findSubmissionByTeamName(teamName: string, track?: string): Promise<Submission | undefined> {
+  const data = await readTeamsFile();
+  if (!data) return undefined;
+  const target = teamName.trim().toLowerCase();
+  return data.submissions.find(
+    (s) => s.teamName?.trim().toLowerCase() === target && (!track || s.track === track)
+  );
+}
+
 export async function searchTeams(query: string, track?: string): Promise<Team[]> {
   const data = await readTeamsFile();
   if (!data) return [];

@@ -9,6 +9,7 @@ import { SeparationPanel } from "./SeparationPanel";
 import { TrajectoryPanel } from "./TrajectoryPanel";
 import { CrossTrackPanel, FunnelPanel, TimingPanel, TrackShapePanel } from "./SupportPanels";
 import { DiagnosticsPanel } from "./DiagnosticsPanel";
+import { TeamEmailLookup } from "./TeamEmailLookup";
 
 export function KaggleTab({
   analysis,
@@ -111,6 +112,7 @@ export function KaggleTab({
       )}
 
       <ContenderTable contenders={trackContenders} />
+      <TeamEmailLookup contenders={trackContenders} track={track} />
       <SeparationPanel separation={trackSeparation} boards={trackBoards} />
       <TrajectoryPanel analysis={analysis} track={track} />
       <FunnelPanel analysis={analysis} track={track} />
