@@ -69,8 +69,7 @@ const rules = [
         summary: "Nominal on-campus fee · Travel arranged by participants.",
         details: [
             "Selected Phase 3 participants will be charged a nominal registration fee covering merchandise and food/refreshments on campus.",
-            "Travel arrangements to Goa must be made by participants themselves.",
-            "Selected finalists are sponsored to attend the 3-day offline sprint.",
+            "Travel and stay arrangements to Goa must be made by participants themselves.",
         ],
     },
 ];

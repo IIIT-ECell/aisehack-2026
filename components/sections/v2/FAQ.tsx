@@ -31,7 +31,7 @@ const faqs = [
     },
     {
         question: "Is travel to Goa covered?",
-        answer: "No — travel arrangements are to be made by participants themselves. Selected finalists are sponsored to attend the offline sprint.",
+        answer: "No — travel and stay arrangements are to be made by participants themselves.",
     },
     {
         question: "What datasets and problem statements will be provided?",
